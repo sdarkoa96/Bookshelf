@@ -3,13 +3,16 @@ package util;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * perhaps this should be static and/or implement singleton so can be accessed across multiple classes
+ * and only one created
+ */
+
 public class Bookshelf {
 
-    ArrayList<Book> shelf = new ArrayList<>();
-
-    public Bookshelf(){
-
-    }
+    private static ArrayList<Book> shelf = new ArrayList<>();
+    private Bookshelf(){}
+    public static ArrayList<Book> getShelf(){return shelf;}
 
     //think about implementing a hashcode for the shelf based on title, author, and volume
     /*public int hashCode(Book book){
@@ -18,7 +21,7 @@ public class Bookshelf {
 
     public void addBook(Book book){
         if (!inShelf(book)) {
-            this.shelf.add(book);
+            shelf.add(book);
         }
 
     }
