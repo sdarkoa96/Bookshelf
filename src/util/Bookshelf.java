@@ -26,10 +26,12 @@ public class Bookshelf {
 
     }*/
 
-    public void addBook(Book book){
+    public boolean addBook(Book book){
         if (!inShelf(book)) {
             this.books.add(book);
+            return true;
         }
+        return false;
 
     }
 
