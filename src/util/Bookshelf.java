@@ -35,6 +35,10 @@ public class Bookshelf {
 
     }
 
+    public ArrayList<Book> getBooks() {
+        return books;
+    }
+
     public boolean inShelf(Book book){
         if (!this.books.isEmpty()) {
             for (Book i : this.books) {
