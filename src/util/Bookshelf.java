@@ -6,13 +6,20 @@ import java.util.Objects;
 /**
  * perhaps this should be static and/or implement singleton so can be accessed across multiple classes
  * and only one created
+ *
+ * should i have multiple shelves (fiction, non-fiction, comics); maybe represent in priority queue?
  */
 
 public class Bookshelf {
 
-    private static ArrayList<Book> shelf = new ArrayList<>();
-    private Bookshelf(){}
-    public static ArrayList<Book> getShelf(){return shelf;}
+    private ArrayList<Book> books;
+    private Bookshelf(){
+        books = new ArrayList<>();
+    }
+    private static Bookshelf shelf = new Bookshelf();
+    public static Bookshelf getShelf(){
+        return shelf;
+    }
 
     //think about implementing a hashcode for the shelf based on title, author, and volume
     /*public int hashCode(Book book){
@@ -21,14 +28,14 @@ public class Bookshelf {
 
     public void addBook(Book book){
         if (!inShelf(book)) {
-            shelf.add(book);
+            this.books.add(book);
         }
 
     }
 
     public boolean inShelf(Book book){
-        if (!shelf.isEmpty()) {
-            for (Book i : shelf) {
+        if (!this.books.isEmpty()) {
+            for (Book i : this.books) {
                 if (i.equals(book)) {
                     return true;
                 }

@@ -11,6 +11,8 @@ import util.Bookshelf;
  *
  */
 public class Input {
+
+    Bookshelf shelf = Bookshelf.getShelf();
     public Input(Bookshelf shelf){
 
     }
