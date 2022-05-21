@@ -8,6 +8,6 @@ public class Reader {
         this.filename = filename;
     }
 
-    public void
+//    public void
 
 }
