@@ -10,7 +10,7 @@ class InputTest {
     public void testNewBook(){
         Bookshelf shelf = Bookshelf.getShelf();
         Input testIn = new Input();
-        testIn.newBook("Octavia E. Butler","Kindred","historical fiction",
+        testIn.newBook("Octavia E. Butler","Kindred",
                 "ficion",null);
         Assert.assertFalse(shelf.getBooks().isEmpty());
     }

@@ -4,18 +4,19 @@ public class Book {
 
     String author = null;
     String title = null;
-    String genre = null;
     String type = null;
+
+    String priority = null;
     boolean purchased = false;
     boolean series = false;
     String seriesTitle = null;
     int seriesVol = 0;
 
-    public Book(String author, String title, String genre, String type, String seriesTitle) {
+    public Book(String author, String title, String type, String seriesTitle) {
         this.author = author;
         this.title = title;
-        this.genre = genre;
         this.type = type;
+//        this.priority = priority;
         this.seriesTitle = seriesTitle;
     }
 
@@ -69,19 +70,19 @@ public class Book {
         this.title = title;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 }

@@ -1,7 +1,6 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * perhaps this should be static and/or implement singleton so can be accessed across multiple classes
@@ -12,9 +11,12 @@ import java.util.Objects;
 
 public class Bookshelf {
 
-    private ArrayList<Book> books;
+    private Map<String, List<Book>> books;
     private Bookshelf(){
-        books = new ArrayList<>();
+        books = new TreeMap<>();
+        books.put("fiction", new ArrayList<Book>());
+        books.put("non-fiction", new ArrayList<Book>());
+        books.put("comic", new ArrayList<Book>());
     }
     private static Bookshelf shelf = new Bookshelf();
     public static Bookshelf getShelf(){
@@ -28,27 +30,23 @@ public class Bookshelf {
 
     public boolean addBook(Book book){
         if (!inShelf(book)) {
-            this.books.add(book);
+            String type = book.getType();
+            this.books.get(type).add(book);
             return true;
         }
         return false;
 
     }
 
-    public ArrayList<Book> getBooks() {
+    public Map<String, List<Book>> getBooks() {
         return books;
     }
 
     public boolean inShelf(Book book){
-        if (!this.books.isEmpty()) {
-            for (Book i : this.books) {
-                if (i.equals(book)) {
-                    return true;
-                }
-            }
-
+        String type = book.getType();
+        if (!this.books.get(type).isEmpty()) {
+            return this.books.get(type).contains(book);
         }
-
         return false;
     }
 

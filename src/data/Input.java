@@ -36,9 +36,9 @@ public class Input {
         System.out.println("Enter the book title: ");
         title = scan.next();
 
-        String genre = null;
-        System.out.println("Enter the book genre: ");
-        genre = scan.next();
+//        String genre = null;
+//        System.out.println("Enter the book genre: ");
+//        genre = scan.next();
 
         String type = null;
         int typeBook = 0;
@@ -82,7 +82,7 @@ public class Input {
             }
         }
 
-        Book book = new Book(author,title,genre,type,seriesTitle);
+        Book book = new Book(author,title, type,seriesTitle);
         if(seriesTitle != null){
             book.setSeriesVol(seriesVol);
         }
@@ -91,9 +91,9 @@ public class Input {
         scan.close(); //close scanner
     }
 
-    public void newBook(String author, String title, String genre, String type, String seriesTitle){
-        Book newBook = new Book(author, title, genre, type, seriesTitle);
-        System.out.println("Book added to shelf: "+shelf.addBook(newBook));
+    public void newBook(String author, String title, String type, String seriesTitle){
+        Book newBook = new Book(author, title, type, seriesTitle);
+        System.out.println("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }
 
 }
