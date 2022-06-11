@@ -12,6 +12,10 @@ public class Purchase{
 
 
 
+    List<String> titleNotPurchased = new ArrayList<>();
+
+
+
     List<Book> notPurchased = new ArrayList<>(); //might want to make this a list of books so can sort by priority
 
     public Purchase(){
@@ -26,9 +30,13 @@ public class Purchase{
         return notPurchased;
     }
 
+    public List<String> getTitleNotPurchased() {
+        return titleNotPurchased;
+    }
+
     public void sortNotPurchased(){
-        Comparator<Book> prioritySorter = ((o1, o2) -> o1.compareTo(o2));
-        Collections.sort(this.notPurchased,prioritySorter);
+        Comparator<Book> prioritySorter = (Book::compareTo);
+        this.notPurchased.sort(prioritySorter);
 
     }
 
@@ -37,6 +45,7 @@ public class Purchase{
     public void purchasedStatus(){
         for(Map.Entry<String,List<Book>> pair: shelf.getBooks().entrySet()){
             for(Book i: pair.getValue()){
+                //TODO: consider making a string of title, volume, and author to put in lists
                 if(i.isPurchased() && !purchased.contains(i)){
                     purchased.add(i.getTitle());
                 }else if (!i.isPurchased() && !notPurchased.contains(i)){
@@ -45,8 +54,11 @@ public class Purchase{
             }
 
         }
-
         sortNotPurchased();
+
+        for(Book i: this.notPurchased){
+            String
+        }
     }
 
 
