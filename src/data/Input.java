@@ -26,7 +26,7 @@ public class Input {
     }
 
     public void inputBook(){
-        Scanner scan = new Scanner(System.in); //instantiate scanner here so it is always closed
+        Scanner scan = new Scanner(System.in);
 
         String author = null;
         System.out.println("Enter the book author: ");

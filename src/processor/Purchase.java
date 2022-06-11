@@ -19,7 +19,7 @@ public class Purchase{
     List<Book> notPurchased = new ArrayList<>(); //might want to make this a list of books so can sort by priority
 
     public Purchase(){
-
+        purchasedStatus();
     }
 
     public List<String> getPurchased() {
@@ -27,6 +27,7 @@ public class Purchase{
     }
 
     public List<Book> getNotPurchased() {
+
         return notPurchased;
     }
 

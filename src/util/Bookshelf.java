@@ -42,9 +42,11 @@ public class Bookshelf {
         return books;
     }
 
-    public boolean inShelf(Book book){
+    public boolean inShelf(Book book) throws NullPointerException{
+        //throws null pointer if type not a key in shelf
         String type = book.getType();
-        if (!this.books.get(type).isEmpty()) {
+        List<Book> typeShelf = this.books.get(type.toLowerCase());
+        if (!typeShelf.isEmpty()) {
             return this.books.get(type).contains(book);
         }
         return false;
