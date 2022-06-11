@@ -27,7 +27,13 @@ public class InputTest {
 
         this.testIn.newBook("Octavia E. Butler","Kindred",
                 "fiction",null);
-        Assert.assertFalse(shelf.getBooks().isEmpty());
+        Assert.assertFalse(shelf.getBooks().get("fiction").isEmpty());
+        this.testIn.newBook("Octavia E. Butler","Kindred",
+                "fiction",null);
+        Assert.assertEquals(shelf.getBooks().get("fiction").size(),1);
+        this.testIn.newBook("Octavia E. Butler","Bloodchild",
+                "fiction",null);
+        Assert.assertEquals(shelf.getBooks().get("fiction").size(),2);
     }
 
     @Test

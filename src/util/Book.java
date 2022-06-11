@@ -1,6 +1,7 @@
 package util;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class Book {
 
@@ -22,7 +23,14 @@ public class Book {
         this.seriesTitle = seriesTitle;
     }
 
-    public boolean equals(Book other){
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(author, title, seriesTitle, seriesVol);
+//    }
+
+    @Override
+    public boolean equals(Object o){
+        Book other = (Book) o;
 
         if(other.getSeries() && this.series){
             if(!(other.getSeriesTitle().toLowerCase().equals(this.seriesTitle.toLowerCase()))){
