@@ -1,12 +1,14 @@
 package util;
 
+import java.util.Locale;
+
 public class Book {
 
     String author = null;
     String title = null;
     String type = null;
 
-    String priority = null;
+    int priority = -1;
     boolean purchased = false;
     boolean series = false;
     String seriesTitle = null;
@@ -23,11 +25,12 @@ public class Book {
     public boolean equals(Book other){
 
         if(other.getSeries() && this.series){
-            if(!(other.getSeriesTitle().equals(this.seriesTitle))){
+            if(!(other.getSeriesTitle().toLowerCase().equals(this.seriesTitle.toLowerCase()))){
                 return false;
             }
         }
-        return (other.getAuthor().equals(this.author) && other.getTitle().equals(this.title) && other.getSeriesVol()==this.getSeriesVol());
+        return (other.getAuthor().toLowerCase().equals(this.author.toLowerCase()) && other.getTitle().toLowerCase().equals(this.title.toLowerCase())
+                && other.getSeriesVol()==this.getSeriesVol());
     }
 
     public String getSeriesTitle() {
@@ -78,11 +81,16 @@ public class Book {
         this.type = type;
     }
 
-    public String getPriority() {
-        return priority;
+    public int getPriority() {
+        return this.priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+//    @Override
+    public int compareTo(Book o){
+        return this.getPriority() - o.getPriority();
     }
 }
