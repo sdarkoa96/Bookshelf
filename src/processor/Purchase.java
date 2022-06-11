@@ -40,14 +40,24 @@ public class Purchase{
 
     }
 
-
+    public String bookString(Book book){
+        StringBuilder bookInfo = new StringBuilder();
+        bookInfo.append(book.getTitle());
+        if(book.getSeries()){
+            bookInfo.append("Vol: ").append(book.getSeriesVol());
+        }
+        bookInfo.append(book.getAuthor());
+        return bookInfo.toString();
+    }
 
     public void purchasedStatus(){
         for(Map.Entry<String,List<Book>> pair: shelf.getBooks().entrySet()){
             for(Book i: pair.getValue()){
+                String bookInfo = null;
                 //TODO: consider making a string of title, volume, and author to put in lists
-                if(i.isPurchased() && !purchased.contains(i)){
-                    purchased.add(i.getTitle());
+                if(i.isPurchased() && !purchased.contains(bookString(i))){
+                    bookInfo = bookString(i);
+                    purchased.add(bookInfo.toString());
                 }else if (!i.isPurchased() && !notPurchased.contains(i)){
                     notPurchased.add((i));
                 }
@@ -57,7 +67,8 @@ public class Purchase{
         sortNotPurchased();
 
         for(Book i: this.notPurchased){
-            String
+            String bookInfo = bookString(i);
+            titleNotPurchased.add(bookInfo);
         }
     }
 
