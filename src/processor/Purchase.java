@@ -37,20 +37,28 @@ public class Purchase{
     }
 
     /**
-     * theoretically should use in update methods to locate a book
+     * theoretically should use in update methods to locate a book. Maybe should return book so it can used to find in list
      * @param title
      * @param author
      * @param type
      */
-    public void findBook(String title, String author, String type){
+    public Book findBook(String title, String author, String type){
         if(title == null || type == null || type.isBlank()){
             System.out.println("Must enter a title and book type (fiction, non-fiction, comic");
-            return;
+            return null;
 //            System.exit(0);
         }
 
         title = title.toLowerCase();
-        type = type.toLowerCase();
+        List<Book> typeShelf = shelf.getBooks().get(type.toLowerCase());
+        String iTitle = null;
+        String iTitle = null;
+        if(author != null){
+            for (Book i: typeShelf){
+
+                if (i.getTitle())
+            }
+        }
 
     }
 
