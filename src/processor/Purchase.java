@@ -10,11 +10,7 @@ public class Purchase{
     Bookshelf shelf = Bookshelf.getShelf();
     List<String> purchased = new ArrayList<>();
 
-
-
     List<String> titleNotPurchased = new ArrayList<>();
-
-
 
     List<Book> notPurchased = new ArrayList<>(); //might want to make this a list of books so can sort by priority
 
@@ -27,7 +23,6 @@ public class Purchase{
     }
 
     public List<Book> getNotPurchased() {
-
         return notPurchased;
     }
 
@@ -38,6 +33,26 @@ public class Purchase{
     public void sortNotPurchased(){
         Comparator<Book> prioritySorter = (Book::compareTo);
         this.notPurchased.sort(prioritySorter);
+
+    }
+
+    /**
+     * Updates whether a book has been purchased or not. Adds and Removes book from appropiate list
+     * @param title: title of the book
+     * @param author: author's name
+     * @param type: ficion, non-fiction, comic
+     */
+    public void updatePurchaseStatus(String title, String author, String type){
+
+    }
+
+    /**
+     * Updates the priority of books to be purchased
+     * @param title
+     * @param author
+     * @param type
+     */
+    public void updatePriorityStatus(String title, String author, String type){
 
     }
 

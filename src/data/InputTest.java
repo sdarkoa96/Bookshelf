@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import util.Book;
 import util.Bookshelf;
 
 import java.io.ByteArrayInputStream;
@@ -24,6 +25,12 @@ public class InputTest {
     @Test
     public void testNewBook(){
 
+        Book book1 = new Book("Octavia E. Butler","Kindred",
+                "fiction",null);
+        Book book2 = new Book("Octavia E. Butler","Kindred",
+                "fiction",null);
+
+        Assert.assertEquals(book1,book2);
 
         this.testIn.newBook("Octavia E. Butler","Kindred",
                 "fiction",null);
