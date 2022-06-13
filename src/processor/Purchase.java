@@ -41,8 +41,10 @@ public class Purchase{
      * @param title
      * @param author
      * @param type
+     * @param seriesTitle if this is null don't look at it
+     * @param vol if null set to 0? or don't use?
      */
-    public Book findBook(String title, String author, String type){
+    public List<Book> findBook(String title, String author, String type,String seriesTitle, int vol){
         if(title == null || type == null || type.isBlank()){
             System.out.println("Must enter a title and book type (fiction, non-fiction, comic");
             return null;
@@ -51,14 +53,33 @@ public class Purchase{
 
         title = title.toLowerCase();
         List<Book> typeShelf = shelf.getBooks().get(type.toLowerCase());
+        List<Book> found = new ArrayList<>();
         String iTitle = null;
-        String iTitle = null;
-        if(author != null){
+        String iAuthor = null;
+        //Todo: think about how want to implement series
+        if(author == null){ //this will return all books with the same title if you don't know author
             for (Book i: typeShelf){
-
-                if (i.getTitle())
+                iTitle = i.getTitle().toLowerCase();
+                if (iTitle.equals(title)){
+                    found.add(i);
+                }
             }
+        } else{ //this is more specific because know the author
+            for (Book i: typeShelf){
+                iTitle = i.getTitle().toLowerCase();
+                iAuthor = i.getAuthor().toLowerCase();
+                if (iTitle.equals(title) && iAuthor.equals(author) && Objects.equals(seriesTitle,i.getSeriesTitle())){
+                    if(vol == 0){
+                        found.add(i);
+                    } else if (i.getSeriesVol() == vol) {
+                        found.add(i);
+                    }
+                }
+            }
+
         }
+
+        return found;
 
     }
 
