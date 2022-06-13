@@ -96,6 +96,11 @@ public class Purchase{
      * @param author: author's name
      * @param type: ficion, non-fiction, comic
      */
+
+    /*TODO: break this down into 2 methods; one for updating to purchased and another for updating to not purchased
+       this will allow us to limit the amount of times need user input to handle multiple books at once
+     */
+
     public void updatePurchaseStatus(String title, String author, String type,String seriesTitle, int vol){
         List<Book> found = findBook(title,author,type,seriesTitle,vol);
 
@@ -123,6 +128,9 @@ public class Purchase{
         if (author == null){}
 
         //TODO: if series entered but vol == 0, remove and entire series
+        if(seriesTitle != null && vol == 0){
+
+        }
 
     }
 
