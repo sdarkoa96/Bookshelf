@@ -8,9 +8,9 @@ import java.util.*;
 
 public class Purchase{
     Bookshelf shelf = Bookshelf.getShelf();
-    List<String> purchased = new ArrayList<>();
+    Set<String> purchased = new TreeSet<>();
 
-    List<String> titleNotPurchased = new ArrayList<>();
+    Set<String> titleNotPurchased = new TreeSet<>();
 
     List<Book> notPurchased = new ArrayList<>(); //might want to make this a list of books so can sort by priority
 
@@ -18,7 +18,7 @@ public class Purchase{
         purchasedStatus();
     }
 
-    public List<String> getPurchased() {
+    public Set<String> getPurchased() {
         return purchased;
     }
 
@@ -26,7 +26,7 @@ public class Purchase{
         return notPurchased;
     }
 
-    public List<String> getTitleNotPurchased() {
+    public Set<String> getTitleNotPurchased() {
         return titleNotPurchased;
     }
 
@@ -122,7 +122,7 @@ public class Purchase{
         //TODO: if author not input, grab list of authors and display them. have user pick which author to remove or exit.
         if (author == null){}
 
-        //TODO: if series entered but vol == 0, remove entire series
+        //TODO: if series entered but vol == 0, remove and entire series
 
     }
 
