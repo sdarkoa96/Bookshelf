@@ -38,6 +38,9 @@ public class Purchase{
 
     /**
      * theoretically should use in update methods to locate a book. Maybe should return book so it can used to find in list
+     *
+     * might refactor to be able to remove multiple volumes of series, not just one or all: if series title entered and \
+     * vol == -1 could trigger condition that will call for user input to select specific volumes
      * @param title
      * @param author
      * @param type
@@ -50,6 +53,7 @@ public class Purchase{
             return null;
 //            System.exit(0);
         }
+
 
         title = title.toLowerCase();
         List<Book> typeShelf = shelf.getBooks().get(type.toLowerCase());
@@ -69,7 +73,7 @@ public class Purchase{
                 iTitle = i.getTitle().toLowerCase();
                 iAuthor = i.getAuthor().toLowerCase();
                 if (iTitle.equals(title) && iAuthor.equals(author) && Objects.equals(seriesTitle,i.getSeriesTitle())){
-                    if(vol == 0){
+                    if(vol <= 0){
                         found.add(i);
                     } else if (i.getSeriesVol() == vol) {
                         found.add(i);
@@ -85,11 +89,40 @@ public class Purchase{
 
     /**
      * Updates whether a book has been purchased or not. Adds and Removes book from appropiate list
+     *
+     * might refactor to be able to remove multiple volumes of series, not just one or all: if series title entered and \
+     * vol == -1 could trigger condition that will call for user input to select specific volumes
      * @param title: title of the book
      * @param author: author's name
      * @param type: ficion, non-fiction, comic
      */
-    public void updatePurchaseStatus(String title, String author, String type){
+    public void updatePurchaseStatus(String title, String author, String type,String seriesTitle, int vol){
+        List<Book> found = findBook(title,author,type,seriesTitle,vol);
+
+        //assume that if found.size() == 1; we've found the exact book we want to remove and exit method
+        if(found == null){
+            System.out.println("Sorry, this book is not in your shelf");
+            return;
+        }else if(found.size()==1){
+            Book selection = found.get(0);
+            String selected = bookString(selection);
+            if(selection.isPurchased()){
+                selection.setPurchased(false);
+                //remove from purchased list
+                purchased.remove(selected);
+                titleNotPurchased.add(selected);
+            }else{
+                selection.setPurchased(true);
+                purchased.add(selected);
+                titleNotPurchased.remove(selected);
+            }
+            return;
+        }
+
+        //TODO: if author not input, grab list of authors and display them. have user pick which author to remove or exit.
+        if (author == null){}
+
+        //TODO: if series entered but vol == 0, remove entire series
 
     }
 
@@ -99,7 +132,7 @@ public class Purchase{
      * @param author
      * @param type
      */
-    public void updatePriorityStatus(String title, String author, String type){
+    public void updatePriorityStatus(String title, String author, String type,String seriesTitle, int vol){
 
     }
 
