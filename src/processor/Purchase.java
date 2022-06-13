@@ -37,6 +37,24 @@ public class Purchase{
     }
 
     /**
+     * theoretically should use in update methods to locate a book
+     * @param title
+     * @param author
+     * @param type
+     */
+    public void findBook(String title, String author, String type){
+        if(title == null || type == null || type.isBlank()){
+            System.out.println("Must enter a title and book type (fiction, non-fiction, comic");
+            return;
+//            System.exit(0);
+        }
+
+        title = title.toLowerCase();
+        type = type.toLowerCase();
+
+    }
+
+    /**
      * Updates whether a book has been purchased or not. Adds and Removes book from appropiate list
      * @param title: title of the book
      * @param author: author's name
