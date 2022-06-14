@@ -101,7 +101,7 @@ public class Purchase{
        this will allow us to limit the amount of times need user input to handle multiple books at once
      */
 
-    public void updatePurchaseStatus(String title, String author, String type,String seriesTitle, int vol){
+    public void updatePurchaseStatus(Scanner scan, boolean bought, String title, String author, String type,String seriesTitle, int vol){
         List<Book> found = findBook(title,author,type,seriesTitle,vol);
 
         //assume that if found.size() == 1; we've found the exact book we want to remove and exit method
@@ -111,12 +111,12 @@ public class Purchase{
         }else if(found.size()==1){
             Book selection = found.get(0);
             String selected = bookString(selection);
-            if(selection.isPurchased()){
+            if(!bought && selection.isPurchased()){
                 selection.setPurchased(false);
                 //remove from purchased list
                 purchased.remove(selected);
                 titleNotPurchased.add(selected);
-            }else{
+            }else if(bought && !selection.isPurchased()){
                 selection.setPurchased(true);
                 purchased.add(selected);
                 titleNotPurchased.remove(selected);
@@ -125,7 +125,23 @@ public class Purchase{
         }
 
         //TODO: if author not input, grab list of authors and display them. have user pick which author to remove or exit.
-        if (author == null){}
+        if (author == null){
+            Map<String,Book> selectBook = new TreeMap<>();
+            for(Book i: found){
+                selectBook.put(i.getAuthor());
+            }
+
+            System.out.println("Here are the list of authors with the given book title: ");
+            for(String i: selectBook){
+                System.out.println(i);
+            }
+
+            String choice = scan.next();
+
+            if(selectAuthor.contains(choice)){
+
+            }
+        }
 
         //TODO: if series entered but vol == 0, remove and entire series
         if(seriesTitle != null && vol == 0){
