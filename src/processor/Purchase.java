@@ -128,7 +128,7 @@ public class Purchase{
         if (author == null){
             Map<String,Book> selectBook = new TreeMap<>();
             for(Book i: found){
-                selectBook.put(i.getAuthor());
+                selectBook.put(i.getTitle()+"vol: " +i.getSeriesVol()+"by: "+i.getAuthor(), i);
             }
 
             System.out.println("Here are the list of authors with the given book title: ");
@@ -138,9 +138,6 @@ public class Purchase{
 
             String choice = scan.next();
 
-            if(selectAuthor.contains(choice)){
-
-            }
         }
 
         //TODO: if series entered but vol == 0, remove and entire series
