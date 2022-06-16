@@ -97,7 +97,23 @@ public class Book {
         this.priority = priority;
     }
 
-//    @Override
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Book: ");
+        sb.append(title);
+
+        if(series){
+            sb.append(" Vol: ").append(seriesVol);
+        }
+
+        sb.append(" by ").append(author);
+        sb.append(" purchased: ").append(purchased);
+
+
+        return sb.toString();
+    }
+
+    //    @Override
     public int compareTo(Book o){
         return this.getPriority() - o.getPriority();
     }

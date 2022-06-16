@@ -87,6 +87,18 @@ public class Purchase{
 
     }
 
+    public void swapStatus(boolean bought,Book book){
+        if(bought){
+            book.setPurchased(true);
+            purchased.add(book.toString());
+            titleNotPurchased.remove(book.toString());
+        }else{
+            book.setPurchased(false);
+            purchased.remove(book.toString());
+            titleNotPurchased.add(book.toString());
+        }
+    }
+
     /**
      * Updates whether a book has been purchased or not. Adds and Removes book from appropiate list
      *
@@ -105,44 +117,121 @@ public class Purchase{
         List<Book> found = findBook(title,author,type,seriesTitle,vol);
 
         //assume that if found.size() == 1; we've found the exact book we want to remove and exit method
-        if(found == null){
+        if(found == null || found.size() == 0){
             System.out.println("Sorry, this book is not in your shelf");
             return;
         }else if(found.size()==1){
             Book selection = found.get(0);
-            String selected = bookString(selection);
-            if(!bought && selection.isPurchased()){
-                selection.setPurchased(false);
-                //remove from purchased list
-                purchased.remove(selected);
-                titleNotPurchased.add(selected);
-            }else if(bought && !selection.isPurchased()){
-                selection.setPurchased(true);
-                purchased.add(selected);
-                titleNotPurchased.remove(selected);
-            }
+//            String selected = selection.toString();
+            swapStatus(bought,selection);
+//            if(!bought){
+//                selection.setPurchased(false);
+//                //remove from purchased list
+//                purchased.remove(selected);
+//                titleNotPurchased.add(selected);
+//            }else if(bought){
+//                selection.setPurchased(true);
+//                purchased.add(selected);
+//                titleNotPurchased.remove(selected);
+//            }
             return;
         }
 
         //TODO: if author not input, grab list of authors and display them. have user pick which author to remove or exit.
         if (author == null){
             Map<String,Book> selectBook = new TreeMap<>();
+            Map<Integer,String> options = new TreeMap<>();
+            int number = 1;
             for(Book i: found){
-                selectBook.put(i.getTitle()+"vol: " +i.getSeriesVol()+"by: "+i.getAuthor(), i);
+                selectBook.put(i.toString(), i);
+                options.put(number,i.toString());
+                number ++;
             }
 
-            System.out.println("Here are the list of authors with the given book title: ");
-            for(String i: selectBook){
-                System.out.println(i);
+            System.out.println("Here are the list of books with this title: ");
+            for(Map.Entry<Integer,String> i: options.entrySet()){
+                System.out.println(i.getKey()+": "+i.getValue());
             }
 
-            String choice = scan.next();
+            if(vol == -1){
+                System.out.println("Enter number associated with the book you would like to change the purchase status of or enter -1 if finished");
+                int choice = scan.nextInt();
+                String bookChoice = null;
+                Book book = null;
+                while (choice != -1){
+                    if(options.containsKey(choice)){
+                        bookChoice = options.get(choice);
+                        book = selectBook.get(bookChoice);
+                        swapStatus(bought,book);
+//                        if(bought){
+//                            book.setPurchased(true);
+//                            purchased.add(book.toString());
+//                            titleNotPurchased.remove(book.toString());
+//                        }else{
+//                            book.setPurchased(false);
+//                            purchased.remove(book.toString());
+//                            titleNotPurchased.add(book.toString());
+//                        }
+                    }else {
+                        System.out.print("Incorrect entry.");
+                    }
+                    System.out.println("Enter number associated with the book you would like to change the purchase status of or enter -1 if finished");
+                    choice = scan.nextInt();
+                }
+                return;
+            }else if(vol == 0 ){
+                System.out.println("Enter number associated with the book you would like to change the purchase status of: ");
+                int choice = scan.nextInt();
+                String bookChoice = null;
+                Book book = null;
+
+                if(options.containsKey(choice)){
+                    bookChoice = options.get(choice);
+                    book = selectBook.get(bookChoice);
+                    swapStatus(bought,book);
+                }else {
+                    System.out.print("Incorrect entry.");
+                }
+
+                return;
+            }
 
         }
 
         //TODO: if series entered but vol == 0, remove and entire series
-        if(seriesTitle != null && vol == 0){
+        else if(seriesTitle != null){
+            List<Book> sorted = new ArrayList<>(found); //sort by volume
+            if(vol == 0) {
+                for (Book i : found) {
+                    swapStatus(bought, i);
+                }
+                return;
+            }else if(vol == -1){
 
+                System.out.println("Enter volume you would like to change the purchase status of or enter -1 if finished");
+                int choice = scan.nextInt();
+                while (choice != -1){
+                    //pull book using index
+                    try {
+                        swapStatus(bought, sorted.get(choice - 1));
+                    }catch (IndexOutOfBoundsException e){
+                        System.out.println("This volume is not in your shelf.");
+                    }
+
+                    System.out.println("Enter volume you would like to change the purchase status of or enter -1 if finished");
+                    choice = scan.nextInt();
+                }
+                return;
+            }else {
+                System.out.println("Enter volume you would like to change the purchase status of");
+                int choice = scan.nextInt();
+                try {
+                    swapStatus(bought, sorted.get(choice - 1));
+                }catch (IndexOutOfBoundsException e){
+                    System.out.println("This volume is not in your shelf.");
+                }
+                return;
+            }
         }
 
     }
@@ -171,7 +260,7 @@ public class Purchase{
         for(Map.Entry<String,List<Book>> pair: shelf.getBooks().entrySet()){
             for(Book i: pair.getValue()){
                 String bookInfo = null;
-                //TODO: consider making a string of title, volume, and author to put in lists
+
                 if(i.isPurchased() && !purchased.contains(bookString(i))){
                     bookInfo = bookString(i);
                     purchased.add(bookInfo.toString());
