@@ -97,26 +97,31 @@ class Scratch {
                 }
                 //have user choose author
                 System.out.println("Enter number to select author: ");
-                int authorSelect = -1;
+                int index = -1;
                 while (true) {
                     try {
-                        authorSelect = scan.nextInt();
-                        break;
+                        index = scan.nextInt();
+                        if(index > 0 && index <= authorsFound.size()){
+                            break;
+                        }else{
+                            System.out.println("You have not selected a number from the given list. Please select a number: ");
+                        }
                     }catch (InputMismatchException e){
                         System.out.println("Enter an integer");
                     }
                 }
 
-                if(authorSelect > 0 && authorSelect <= authorsFound.size()){
-                    String selection = authorsFound.get(authorSelect-1);
-                    for (Book i: found){
-                        if(selection.toLowerCase().equals(i.getAuthor().toLowerCase())){
-                            swapStatus(bought,i);
-                        }
+                //select all books of author
+                String selection = authorsFound.get(index-1);
+                for (Book i: found){
+                    if(selection.toLowerCase().equals(i.getAuthor().toLowerCase())){
+                        swapStatus(bought,i);
                     }
                 }
 
-                //select all books of author
+
+
+
             }
 
         }else if(seriesTitle != null && vol > 0){
