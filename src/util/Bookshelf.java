@@ -3,10 +3,7 @@ package util;
 import java.util.*;
 
 /**
- * perhaps this should be static and/or implement singleton so can be accessed across multiple classes
- * and only one created
- *
- * should i have multiple shelves (fiction, non-fiction, comics); maybe represent in priority queue?
+ *Represents a bookshelf of books that you've bought and plan to buy
  */
 
 public class Bookshelf {
@@ -14,9 +11,9 @@ public class Bookshelf {
     private Map<String, List<Book>> books;
     private Bookshelf(){
         books = new TreeMap<>();
-        books.put("fiction", new ArrayList<Book>());
-        books.put("non-fiction", new ArrayList<Book>());
-        books.put("comic", new ArrayList<Book>());
+        books.put("fiction", new ArrayList<Book>()); //fiction shelf
+        books.put("non-fiction", new ArrayList<Book>()); //non-fiction shelf
+        books.put("comic", new ArrayList<Book>()); //comic shelf
     }
     private static Bookshelf shelf = new Bookshelf();
     public static Bookshelf getShelf(){
@@ -28,6 +25,11 @@ public class Bookshelf {
 
     }*/
 
+    /**
+     * checks if book is in shelf and then adds
+     * @param book
+     * @return
+     */
     public boolean addBook(Book book){
         if (!inShelf(book)) {
             String type = book.getType();

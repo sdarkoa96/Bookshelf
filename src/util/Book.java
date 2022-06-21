@@ -3,13 +3,16 @@ package util;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * class representing a Book
+ */
 public class Book {
 
     String author = null;
     String title = null;
-    String type = null;
+    String type = null; //fiction,non-fiction,comic
 
-    int priority = -1;
+    int priority = -1; //on scale of 1-3 represents how much want to buy this book
     boolean purchased = false;
     boolean series = false;
     String seriesTitle = null;
@@ -19,7 +22,6 @@ public class Book {
         this.author = author;
         this.title = title;
         this.type = type;
-//        this.priority = priority;
         this.seriesTitle = seriesTitle;
     }
 
@@ -113,8 +115,9 @@ public class Book {
         return sb.toString();
     }
 
-    //    @Override
-    public int compareTo(Book o){
-        return this.getPriority() - o.getPriority();
-    }
+//    @Override
+//    public int compareTo(Object o){
+//        o = (Book) o;
+//        return this.getPriority() - o.getPriority();
+//    }
 }

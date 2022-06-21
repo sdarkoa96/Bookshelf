@@ -1,8 +1,6 @@
 import util.Book;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 class Scratch {
     public void updatePurchaseStatus(Scanner scan, boolean bought, String title, String author, String type, String seriesTitle, int vol){
@@ -52,6 +50,7 @@ class Scratch {
             int number = 1;
             for(Book i: found){
                 System.out.println(number+": "+i);
+                number++;
             }
 
 
@@ -84,7 +83,39 @@ class Scratch {
                 }
             }else{
                 //print authors
+                ArrayList<String> authorsFound = new ArrayList<>();
+                for (Book i: found) {
+                    if(!authorsFound.contains(i.getAuthor())){
+                        authorsFound.add(i.getAuthor());
+                    }
+                }
+
+                int number = 1;
+                for (String i:authorsFound) { //tree set so order will remain the same
+                    System.out.println(number+i);
+                    number++;
+                }
                 //have user choose author
+                System.out.println("Enter number to select author: ");
+                int authorSelect = -1;
+                while (true) {
+                    try {
+                        authorSelect = scan.nextInt();
+                        break;
+                    }catch (InputMismatchException e){
+                        System.out.println("Enter an integer");
+                    }
+                }
+
+                if(authorSelect > 0 && authorSelect <= authorsFound.size()){
+                    String selection = authorsFound.get(authorSelect-1);
+                    for (Book i: found){
+                        if(selection.toLowerCase().equals(i.getAuthor().toLowerCase())){
+                            swapStatus(bought,i);
+                        }
+                    }
+                }
+
                 //select all books of author
             }
 
