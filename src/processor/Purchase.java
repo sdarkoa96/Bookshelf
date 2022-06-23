@@ -87,183 +87,180 @@ public class Purchase{
 
     }
 
-    public void swapStatus(boolean bought,Book book){
-        if(bought){
+    public void swapStatus(Boolean bought,Book book, Integer priority){
+        if(bought && priority == null){
             book.setPurchased(true);
             purchased.add(book.toString());
             titleNotPurchased.remove(book.toString());
-        }else{
+        }else if(!bought && priority == null){
             book.setPurchased(false);
             purchased.remove(book.toString());
             titleNotPurchased.add(book.toString());
+        }else if(bought == null && priority != null){
+            book.setPriority(priority);
         }
     }
 
     /**
-     * Updates whether a book has been purchased or not. Adds and Removes book from appropiate list
-     *
-     * might refactor to be able to remove multiple volumes of series, not just one or all: if series title entered and \
-     * vol == -1 could trigger condition that will call for user input to select specific volumes
-     * @param title: title of the book
-     * @param author: author's name
-     * @param type: ficion, non-fiction, comic
+     * Finds and updates the status of book based on given arguments
+     * @param scan gets user input
+     * @param bought if null do not want to change purchase status, if false change purchase status to indicate book wasn't bought, if true
+     *               book has been purchased
+     * @param priority if null do not want to change priority status, if 1 (high priority), 2 (med priority), or 3 (low priority) change book priority
+     *                 status
+     * @param title title of book to change
+     * @param author author of book
+     * @param type fiction, non-fiction, or comic book
+     * @param seriesTitle series name of book
+     * @param vol if > 0 the represents the volume of book in a series, if 0 and series title is given updates all volumes of series, if -1
+     *            and series title given will allow user to select multiple volumes for status update
      */
-
-    /*TODO: break this down into 2 methods; one for updating to purchased and another for updating to not purchased
-       this will allow us to limit the amount of times need user input to handle multiple books at once
-     */
-
-    public void updatePurchaseStatus(Scanner scan, boolean bought, String title, String author, String type,String seriesTitle, int vol){
-        List<Book> found = findBook(title,author,type,seriesTitle,vol);
-
-        //assume that if found.size() == 1; we've found the exact book we want to remove and exit method
-        if(found == null || found.size() == 0){
+    public void updateStatus(Scanner scan, Boolean bought, Integer priority,String title, String author, String type, String seriesTitle, int vol) {
+        List<Book> found = findBook(title, author, type, seriesTitle, vol);
+        if (found == null || found.size() == 0) {
             System.out.println("Sorry, this book is not in your shelf");
             return;
-        }else if(found.size()==1){
+        } else if (found.size() == 1) {
             Book selection = found.get(0);
-//            String selected = selection.toString();
-            swapStatus(bought,selection);
-//            if(!bought){
-//                selection.setPurchased(false);
-//                //remove from purchased list
-//                purchased.remove(selected);
-//                titleNotPurchased.add(selected);
-//            }else if(bought){
-//                selection.setPurchased(true);
-//                purchased.add(selected);
-//                titleNotPurchased.remove(selected);
-//            }
+            swapStatus(bought, selection, priority);
+            return;
+        } else {
+
+            if (seriesTitle == null && vol == 0) {
+                //find the single book
+                //swapStatus takes care of not entered author
+
+                int number = 1;
+                for (Book i : found) {
+                    System.out.println(number + ": " + i);
+                }
+
+                System.out.println("Enter number to select book or enter -1 to exit: ");
+                int index = -1;
+                while (true) {
+                    try {
+                        index = scan.nextInt();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Enter number to select book or enter -1 to exit: ");
+                    }
+                }
+
+                if (index <= 0) {
+                    return;
+                } else if (index > found.size()) {
+                    System.out.println("This number is not in the given list");
+                    return;
+                } else {
+                    Book book = found.get(index - 1);
+                    swapStatus(bought, book, priority);
+                }
+                return;
+
+            } else if (seriesTitle != null && vol == -1) {
+                //allow user to pick multiple books
+                int number = 1;
+                for (Book i : found) {
+                    System.out.println(number + ": " + i);
+                    number++;
+                }
+
+
+                int index = 0;
+                while (index != -1) {
+                    try {
+                        System.out.println("Enter number to select book or enter -1 to exit: ");
+                        index = scan.nextInt();
+                        if (index <= -1) {
+                            break;
+                        } else if (index > found.size()) {
+                            System.out.println("This number is not in the given list");
+                            return;
+                        } else {
+                            Book book = found.get(index - 1);
+                            swapStatus(bought, book, priority);
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Enter number to select book or enter -1 to exit: ");
+                    }
+                }
+
+                return;
+
+            } else if (seriesTitle != null && vol == 0) {
+                //change all books in series
+                if (author != null) {
+                    for (Book i : found) {
+                        swapStatus(bought, i, priority);;
+                    }
+                } else {
+                    //print authors
+                    ArrayList<String> authorsFound = new ArrayList<>();
+                    for (Book i : found) {
+                        if (!authorsFound.contains(i.getAuthor())) {
+                            authorsFound.add(i.getAuthor());
+                        }
+                    }
+
+                    int number = 1;
+                    for (String i : authorsFound) { //tree set so order will remain the same
+                        System.out.println(number + i);
+                        number++;
+                    }
+                    //have user choose author
+                    System.out.println("Enter number to select author: ");
+                    int index = -1;
+                    while (true) {
+                        try {
+                            index = scan.nextInt();
+                            if (index > 0 && index <= authorsFound.size()) {
+                                break;
+                            } else {
+                                System.out.println("You have not selected a number from the given list. Please select a number: ");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Enter an integer");
+                        }
+                    }
+
+                    //select all books of author
+                    String selection = authorsFound.get(index - 1);
+                    for (Book i : found) {
+                        if (selection.toLowerCase().equals(i.getAuthor().toLowerCase())) {
+                            swapStatus(bought, i, priority);
+                        }
+                    }
+
+                    return;
+                }
+
+            } else if (seriesTitle != null && vol > 0) {
+                //this condition is not necessary since can't have dupes
+                return;
+
+            }
             return;
         }
-
-        //TODO: if author not input, grab list of authors and display them. have user pick which author to remove or exit.
-        if (author == null){
-            Map<String,Book> selectBook = new TreeMap<>();
-            Map<Integer,String> options = new TreeMap<>();
-            int number = 1;
-            for(Book i: found){
-                selectBook.put(i.toString(), i);
-                options.put(number,i.toString());
-                number ++;
-            }
-
-            System.out.println("Here are the list of books with this title: ");
-            for(Map.Entry<Integer,String> i: options.entrySet()){
-                System.out.println(i.getKey()+": "+i.getValue());
-            }
-
-            if(vol == -1){
-                System.out.println("Enter number associated with the book you would like to change the purchase status of or enter -1 if finished");
-                int choice = scan.nextInt();
-                String bookChoice = null;
-                Book book = null;
-                while (choice != -1){
-                    if(options.containsKey(choice)){
-                        bookChoice = options.get(choice);
-                        book = selectBook.get(bookChoice);
-                        swapStatus(bought,book);
-//                        if(bought){
-//                            book.setPurchased(true);
-//                            purchased.add(book.toString());
-//                            titleNotPurchased.remove(book.toString());
-//                        }else{
-//                            book.setPurchased(false);
-//                            purchased.remove(book.toString());
-//                            titleNotPurchased.add(book.toString());
-//                        }
-                    }else {
-                        System.out.print("Incorrect entry.");
-                    }
-                    System.out.println("Enter number associated with the book you would like to change the purchase status of or enter -1 if finished");
-                    choice = scan.nextInt();
-                }
-                return;
-            }else if(vol == 0 ){
-                System.out.println("Enter number associated with the book you would like to change the purchase status of: ");
-                int choice = scan.nextInt();
-                String bookChoice = null;
-                Book book = null;
-
-                if(options.containsKey(choice)){
-                    bookChoice = options.get(choice);
-                    book = selectBook.get(bookChoice);
-                    swapStatus(bought,book);
-                }else {
-                    System.out.print("Incorrect entry.");
-                }
-
-                return;
-            }
-
-        }
-
-        //TODO: if series entered but vol == 0, remove and entire series
-        else if(seriesTitle != null){
-            List<Book> sorted = new ArrayList<>(found); //sort by volume
-            if(vol == 0) {
-                for (Book i : found) {
-                    swapStatus(bought, i);
-                }
-                return;
-            }else if(vol == -1){
-
-                System.out.println("Enter volume you would like to change the purchase status of or enter -1 if finished");
-                int choice = scan.nextInt();
-                while (choice != -1){
-                    //pull book using index
-                    try {
-                        swapStatus(bought, sorted.get(choice - 1));
-                    }catch (IndexOutOfBoundsException e){
-                        System.out.println("This volume is not in your shelf.");
-                    }
-
-                    System.out.println("Enter volume you would like to change the purchase status of or enter -1 if finished");
-                    choice = scan.nextInt();
-                }
-                return;
-            }else {
-                System.out.println("Enter volume you would like to change the purchase status of");
-                int choice = scan.nextInt();
-                try {
-                    swapStatus(bought, sorted.get(choice - 1));
-                }catch (IndexOutOfBoundsException e){
-                    System.out.println("This volume is not in your shelf.");
-                }
-                return;
-            }
-        }
-
     }
 
-    /**
-     * Updates the priority of books to be purchased
-     * @param title
-     * @param author
-     * @param type
-     */
-    public void updatePriorityStatus(String title, String author, String type,String seriesTitle, int vol){
-
-    }
-
-    public String bookString(Book book){
-        StringBuilder bookInfo = new StringBuilder();
-        bookInfo.append(book.getTitle());
-        if(book.getSeries()){
-            bookInfo.append("Vol: ").append(book.getSeriesVol());
-        }
-        bookInfo.append(book.getAuthor());
-        return bookInfo.toString();
-    }
+//    public String bookString(Book book){
+//        StringBuilder bookInfo = new StringBuilder();
+//        bookInfo.append(book.getTitle());
+//        if(book.getSeries()){
+//            bookInfo.append("Vol: ").append(book.getSeriesVol());
+//        }
+//        bookInfo.append(book.getAuthor());
+//        return bookInfo.toString();
+//    }
 
     public void purchasedStatus(){
         for(Map.Entry<String,List<Book>> pair: shelf.getBooks().entrySet()){
             for(Book i: pair.getValue()){
                 String bookInfo = null;
 
-                if(i.isPurchased() && !purchased.contains(bookString(i))){
-                    bookInfo = bookString(i);
-                    purchased.add(bookInfo.toString());
+                if(i.isPurchased() && !purchased.contains(i.toString())){
+                    bookInfo = i.toString();
+                    purchased.add(bookInfo);
                 }else if (!i.isPurchased() && !notPurchased.contains(i)){
                     notPurchased.add((i));
                 }
@@ -273,7 +270,7 @@ public class Purchase{
         sortNotPurchased();
 
         for(Book i: this.notPurchased){
-            String bookInfo = bookString(i);
+            String bookInfo = i.toString();
             titleNotPurchased.add(bookInfo);
         }
     }

@@ -115,6 +115,10 @@ public class Book {
         return sb.toString();
     }
 
+    public int compareTo(Book book) {
+        return this.getPriority() - book.getPriority();
+    }
+
 //    @Override
 //    public int compareTo(Object o){
 //        o = (Book) o;
