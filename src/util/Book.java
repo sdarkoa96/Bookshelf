@@ -23,6 +23,9 @@ public class Book {
         this.title = title;
         this.type = type;
         this.seriesTitle = seriesTitle;
+        if(seriesTitle != null){
+            this.series = true;
+        }
     }
 
 //    @Override

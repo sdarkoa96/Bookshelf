@@ -30,6 +30,9 @@ public class Purchase{
         return titleNotPurchased;
     }
 
+    /**
+     * sort non purchased set by priorty of each book
+     */
     public void sortNotPurchased(){
         Comparator<Book> prioritySorter = (Book::compareTo);
         this.notPurchased.sort(prioritySorter);
@@ -37,10 +40,8 @@ public class Purchase{
     }
 
     /**
-     * theoretically should use in update methods to locate a book. Maybe should return book so it can used to find in list
+     * locates books in bookshelf that match the given parameters
      *
-     * might refactor to be able to remove multiple volumes of series, not just one or all: if series title entered and \
-     * vol == -1 could trigger condition that will call for user input to select specific volumes
      * @param title
      * @param author
      * @param type
@@ -87,6 +88,14 @@ public class Purchase{
 
     }
 
+    /**
+     * switches the status of given book's variable
+     * @param bought if null leave book's purchase status alone, if ture set purchase status to true, and if false set purchase status to false
+     * @param book
+     * @param priority if null make no changes to book's priority variable, if 1 (high priority), 2 (med priority), or 3 (low priority) change book priority
+     *                 status
+     */
+
     public void swapStatus(Boolean bought,Book book, Integer priority){
         if(bought && priority == null){
             book.setPurchased(true);
@@ -98,6 +107,7 @@ public class Purchase{
             titleNotPurchased.add(book.toString());
         }else if(bought == null && priority != null){
             book.setPriority(priority);
+            sortNotPurchased();
         }
     }
 
@@ -119,11 +129,11 @@ public class Purchase{
         List<Book> found = findBook(title, author, type, seriesTitle, vol);
         if (found == null || found.size() == 0) {
             System.out.println("Sorry, this book is not in your shelf");
-            return;
+
         } else if (found.size() == 1) {
             Book selection = found.get(0);
             swapStatus(bought, selection, priority);
-            return;
+
         } else {
 
             if (seriesTitle == null && vol == 0) {
@@ -150,12 +160,10 @@ public class Purchase{
                     return;
                 } else if (index > found.size()) {
                     System.out.println("This number is not in the given list");
-                    return;
                 } else {
                     Book book = found.get(index - 1);
                     swapStatus(bought, book, priority);
                 }
-                return;
 
             } else if (seriesTitle != null && vol == -1) {
                 //allow user to pick multiple books
@@ -184,8 +192,6 @@ public class Purchase{
                         System.out.println("Enter number to select book or enter -1 to exit: ");
                     }
                 }
-
-                return;
 
             } else if (seriesTitle != null && vol == 0) {
                 //change all books in series
@@ -226,12 +232,11 @@ public class Purchase{
                     //select all books of author
                     String selection = authorsFound.get(index - 1);
                     for (Book i : found) {
-                        if (selection.toLowerCase().equals(i.getAuthor().toLowerCase())) {
+                        if (selection.equalsIgnoreCase(i.getAuthor())) {
                             swapStatus(bought, i, priority);
                         }
                     }
 
-                    return;
                 }
 
             } else if (seriesTitle != null && vol > 0) {
@@ -239,20 +244,13 @@ public class Purchase{
                 return;
 
             }
-            return;
         }
     }
 
-//    public String bookString(Book book){
-//        StringBuilder bookInfo = new StringBuilder();
-//        bookInfo.append(book.getTitle());
-//        if(book.getSeries()){
-//            bookInfo.append("Vol: ").append(book.getSeriesVol());
-//        }
-//        bookInfo.append(book.getAuthor());
-//        return bookInfo.toString();
-//    }
 
+    /**
+     * populates sets of purchased and not purchased books
+     */
     public void purchasedStatus(){
         for(Map.Entry<String,List<Book>> pair: shelf.getBooks().entrySet()){
             for(Book i: pair.getValue()){
