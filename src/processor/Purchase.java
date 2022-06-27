@@ -51,11 +51,11 @@ public class Purchase{
     public List<Book> findBook(String title, String author, String type,String seriesTitle, int vol){
 
         if(title == null || type == null || type.isBlank()){
-            System.out.println("Must enter a title and book type (fiction, non-fiction, comic");
+            System.out.println("Must enter a title and book type (fiction, non-fiction, comic)");
             return null;
 //            System.exit(0);
         }else if(!(type.equalsIgnoreCase("fiction")||type.equalsIgnoreCase("comic")||type.equalsIgnoreCase("non-fiction"))){
-            System.out.println("Must enter a title and book type (fiction, non-fiction, comic");
+            System.out.println("Must enter a title and book type (fiction, non-fiction, comic)");
             return null;
         }
 
@@ -75,9 +75,9 @@ public class Purchase{
             }
         } else{ //this is more specific because know the author
             for (Book i: typeShelf){
-                iTitle = i.getTitle().toLowerCase();
-                iAuthor = i.getAuthor().toLowerCase();
-                if (iTitle.equals(title) && iAuthor.equals(author) && Objects.equals(seriesTitle,i.getSeriesTitle())){
+                iTitle = i.getTitle();
+                iAuthor = i.getAuthor();
+                if (iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author) && Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase())){
                     if(vol <= 0){
                         found.add(i);
                     } else if (i.getSeriesVol() == vol) {

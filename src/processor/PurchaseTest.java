@@ -61,12 +61,16 @@ public class PurchaseTest {
         List<Book> test1 = test.findBook(null,"Silivia Morena","fiction",null,0);
         Assert.assertEquals(null,test1);
 
+        //empty title
+        test1 = test.findBook("","Tite Kubo","comic","Bleach",0);
+        Assert.assertTrue(test1.isEmpty());
+
         //null author
         List<Book> test2 = test.findBook("Bleach",null,"comic",null,0);
         Assert.assertEquals(test2.size(),2);
 
         //empty author
-        List<Book> test2 = test.findBook("Bleach","","comic",null,0);
+        test2 = test.findBook("Bleach","","comic",null,0);
         Assert.assertTrue(test2.isEmpty());
 
         //null type
@@ -80,6 +84,11 @@ public class PurchaseTest {
         //wrong type
         test3 = test.findBook("Bleach","Tite Kubo","newspaper","Bleach",0);
         Assert.assertNull(test3);
+
+        //regular input
+        List<Book> test4 = test.findBook("Bleach","Tite kubo","comic","bleach",0);
+        Assert.assertEquals(test4.size(),2);
+
 
 
     }
