@@ -118,6 +118,11 @@ public class Book {
         return sb.toString();
     }
 
+    /**
+     *
+     * @param book
+     * @return int determining sorting order (lower numbers at the beginning of list)
+     */
     public int compareTo(Book book) {
         return this.getPriority() - book.getPriority();
     }

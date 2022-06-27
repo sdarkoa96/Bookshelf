@@ -49,10 +49,14 @@ public class Purchase{
      * @param vol if null set to 0? or don't use?
      */
     public List<Book> findBook(String title, String author, String type,String seriesTitle, int vol){
+
         if(title == null || type == null || type.isBlank()){
             System.out.println("Must enter a title and book type (fiction, non-fiction, comic");
             return null;
 //            System.exit(0);
+        }else if(!(type.equalsIgnoreCase("fiction")||type.equalsIgnoreCase("comic")||type.equalsIgnoreCase("non-fiction"))){
+            System.out.println("Must enter a title and book type (fiction, non-fiction, comic");
+            return null;
         }
 
 
