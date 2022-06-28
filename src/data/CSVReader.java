@@ -41,23 +41,32 @@ public class CSVReader extends Reader{
             int authorInd = header.indexOf("author");
             int titleInd = header.indexOf("title");
             int typeInd = header.indexOf("type");
-            int seriesInd = header.indexOf("seriestitle");
+            int seriesInd = header.indexOf("series");
+            int purchaseInd = header.indexOf("purchased");
+            int volInd = header.indexOf("volume");
 
             String author = null;
             String title = null;
             String type = null;
+            String purchase = null;
             String series = null;
+
+            int vol = 0;
 
             while((firstLine = br.readLine()) != null){
                 //not built for titles with commas
                 String[] data = firstLine.split(",");
                 if(seriesInd != -1){
                     series = data[seriesInd];
+                    vol = Integer.parseInt(data[volInd]);
                 }
                 author = data[authorInd];
                 title = data[titleInd];
                 type = data[typeInd];
-                newBook(author,title,type,series);
+                if(purchaseInd != -1){
+                    purchase = data[purchaseInd];
+                }
+                newBook(author,title,type,series, vol,purchase);
             }
         }
 
@@ -65,8 +74,11 @@ public class CSVReader extends Reader{
     }
 
     @Override
-    public void newBook(String author, String title, String type, String seriesTitle){
+    public void newBook(String author, String title, String type, String seriesTitle, int volume,String purchase){
         Book newBook = new Book(author, title, type, seriesTitle);
+        if(purchase != null && purchase.equalsIgnoreCase("true")){
+            newBook.setPurchased(true);
+        }
         System.out.println("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }
 }

@@ -17,8 +17,6 @@ import java.util.Scanner;
  */
 public class Input {
 
-
-
     Bookshelf shelf = Bookshelf.getShelf();
     public Input(){
 

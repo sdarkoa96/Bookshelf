@@ -65,7 +65,7 @@ public class Purchase{
         List<Book> found = new ArrayList<>();
         String iTitle = null;
         String iAuthor = null;
-        //Todo: think about how want to implement series
+
         if(author == null){ //this will return all books with the same title if you don't know author
             for (Book i: typeShelf){
                 iTitle = i.getTitle().toLowerCase();
@@ -77,7 +77,16 @@ public class Purchase{
             for (Book i: typeShelf){
                 iTitle = i.getTitle();
                 iAuthor = i.getAuthor();
-                if (iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author) && Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase())){
+                if(seriesTitle == null){
+                    if(iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author)){
+                        if(vol <= 0){
+                            found.add(i);
+                        } else if (i.getSeriesVol() == vol) {
+                            found.add(i);
+                        }
+                    }
+
+                }else if (iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author) && Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase())){
                     if(vol <= 0){
                         found.add(i);
                     } else if (i.getSeriesVol() == vol) {
@@ -101,7 +110,10 @@ public class Purchase{
      */
 
     public void swapStatus(Boolean bought,Book book, Integer priority){
-        if(bought && priority == null){
+        if(bought == null && priority != null){
+            book.setPriority(priority);
+            sortNotPurchased();
+        }else if(bought && priority == null){
             book.setPurchased(true);
             purchased.add(book.toString());
             titleNotPurchased.remove(book.toString());
@@ -109,9 +121,6 @@ public class Purchase{
             book.setPurchased(false);
             purchased.remove(book.toString());
             titleNotPurchased.add(book.toString());
-        }else if(bought == null && priority != null){
-            book.setPriority(priority);
-            sortNotPurchased();
         }
     }
 

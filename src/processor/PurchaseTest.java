@@ -13,25 +13,30 @@ import static org.junit.Assert.*;
 
 public class PurchaseTest {
     Bookshelf shelf = Bookshelf.getShelf();
+    Book book1 = null;
+    Book book2 = null;
+    Book book3 = null;
+    Book book4 = null;
+    Book book5 = null;
 
 
     @Before
     public void setUp() throws Exception {
 
-        Book book1 = new Book("NK Jemisin","The Fifth Season","fiction","The Broken Earth Trilogy");
+        book1 = new Book("NK Jemisin","The Fifth Season","fiction","The Broken Earth Trilogy");
         book1.setSeriesVol(1);
         book1.setPurchased(true);
-        Book book2 = new Book("NK Jemisin","The Obelisk Gate","fiction","The Broken Earth Trilogy");
+        book2 = new Book("NK Jemisin","The Obelisk Gate","fiction","The Broken Earth Trilogy");
         book2.setSeriesVol(2);
         book2.setPurchased(false);
         book2.setPriority(2);
-        Book book3 = new Book("Mikki Kendall","Hood Feminism","non-fiction",null);
+        book3 = new Book("Mikki Kendall","Hood Feminism","non-fiction",null);
         book3.setPurchased(false);
         book3.setPriority(1);
-        Book book4 = new Book("Tite Kubo","Bleach","comic","Bleach");
+        book4 = new Book("Tite Kubo","Bleach","comic","Bleach");
         book4.setSeriesVol(2);
         book4.setPurchased(true);
-        Book book5 = new Book("Tite Kubo","Bleach","comic","Bleach");
+        book5 = new Book("Tite Kubo","Bleach","comic","Bleach");
         book5.setSeriesVol(22);
         book5.setPurchased(false);
         book5.setPriority(3);
@@ -59,7 +64,7 @@ public class PurchaseTest {
 
         //null title
         List<Book> test1 = test.findBook(null,"Silivia Morena","fiction",null,0);
-        Assert.assertEquals(null,test1);
+        assertNull(test1);
 
         //empty title
         test1 = test.findBook("","Tite Kubo","comic","Bleach",0);
@@ -89,16 +94,27 @@ public class PurchaseTest {
         List<Book> test4 = test.findBook("Bleach","Tite kubo","comic","bleach",0);
         Assert.assertEquals(test4.size(),2);
 
-
+        test4 = test.findBook("Bleach","Tite kubo","comic","bleach",22);
+        Assert.assertEquals(test4.size(),1);
 
     }
 
     @Test
     public void swapStatus() {
+        Purchase test = new Purchase();
+        test.swapStatus(true,this.book2,null);
+        Assert.assertTrue(this.book2.isPurchased());
+
+        test.swapStatus(false,this.book1,null);
+        Assert.assertFalse(this.book1.isPurchased());
+
+        test.swapStatus(null,this.book3,3);
+        Assert.assertEquals(this.book3.getPriority(),3);
     }
 
     @Test
     public void updateStatus() {
+        //TODO: figure out how to test with scanner
     }
 
     @Test
