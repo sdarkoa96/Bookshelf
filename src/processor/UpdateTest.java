@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class PurchaseTest {
+public class UpdateTest {
     Bookshelf shelf = Bookshelf.getShelf();
     Book book1 = null;
     Book book2 = null;
@@ -50,7 +50,7 @@ public class PurchaseTest {
 
     @Test
     public void sortNotPurchased() {
-        Purchase test = new Purchase();
+        Update test = new Update();
         test.sortNotPurchased();
         List<Book> testLst = test.getNotPurchased();
         Assert.assertEquals(testLst.get(0).getTitle(),"Hood Feminism");
@@ -60,7 +60,7 @@ public class PurchaseTest {
 
     @Test
     public void findBook() {
-        Purchase test = new Purchase();
+        Update test = new Update();
 
         //null title
         List<Book> test1 = test.findBook(null,"Silivia Morena","fiction",null,0);
@@ -101,14 +101,14 @@ public class PurchaseTest {
 
     @Test
     public void swapStatus() {
-        Purchase test = new Purchase();
-        test.swapStatus(true,this.book2,null);
+        Update test = new Update();
+        test.swapStatus(true,this.book2,null, false);
         Assert.assertTrue(this.book2.isPurchased());
 
-        test.swapStatus(false,this.book1,null);
+        test.swapStatus(false,this.book1,null, false);
         Assert.assertFalse(this.book1.isPurchased());
 
-        test.swapStatus(null,this.book3,3);
+        test.swapStatus(null,this.book3,3, false);
         Assert.assertEquals(this.book3.getPriority(),3);
     }
 
@@ -119,7 +119,7 @@ public class PurchaseTest {
 
     @Test
     public void purchasedStatus() {
-        Purchase test = new Purchase();
+        Update test = new Update();
         test.sortNotPurchased();
         List<Book> testLst1 = test.getNotPurchased();
         Set<String> testLst2 = test.getPurchased();

@@ -6,7 +6,7 @@ import util.Bookshelf;
 import java.util.*;
 
 
-public class Purchase{
+public class Update {
     Bookshelf shelf = Bookshelf.getShelf();
     Set<String> purchased = new TreeSet<>();
 
@@ -14,7 +14,7 @@ public class Purchase{
 
     List<Book> notPurchased = new ArrayList<>(); //might want to make this a list of books so can sort by priority
 
-    public Purchase(){
+    public Update(){
         purchasedStatus();
     }
 
@@ -106,21 +106,25 @@ public class Purchase{
      * @param bought if null leave book's purchase status alone, if ture set purchase status to true, and if false set purchase status to false
      * @param book
      * @param priority if null make no changes to book's priority variable, if 1 (high priority), 2 (med priority), or 3 (low priority) change book priority
-     *                 status
+     * @param rem
      */
 
-    public void swapStatus(Boolean bought,Book book, Integer priority){
+    public void swapStatus(Boolean bought, Book book, Integer priority, boolean rem){
         if(bought == null && priority != null){
             book.setPriority(priority);
             sortNotPurchased();
         }else if(bought && priority == null){
             book.setPurchased(true);
-            purchased.add(book.toString());
-            titleNotPurchased.remove(book.toString());
+            this.purchased.add(book.toString());
+            this.titleNotPurchased.remove(book.toString());
         }else if(!bought && priority == null){
             book.setPurchased(false);
-            purchased.remove(book.toString());
-            titleNotPurchased.add(book.toString());
+            this.purchased.remove(book.toString());
+            this.titleNotPurchased.add(book.toString());
+        }else if(rem){
+            this.shelf.getBooks().get(book.getType()).remove(book);
+            this.purchased.remove(book.toString());
+            this.titleNotPurchased.remove(book.toString());
         }
     }
 
@@ -138,14 +142,14 @@ public class Purchase{
      * @param vol if > 0 the represents the volume of book in a series, if 0 and series title is given updates all volumes of series, if -1
      *            and series title given will allow user to select multiple volumes for status update
      */
-    public void updateStatus(Scanner scan, Boolean bought, Integer priority,String title, String author, String type, String seriesTitle, int vol) {
+    public void updateStatus(Scanner scan, Boolean bought, Integer priority,String title, String author, String type, String seriesTitle, int vol, boolean rem) {
         List<Book> found = findBook(title, author, type, seriesTitle, vol);
         if (found == null || found.size() == 0) {
             System.out.println("Sorry, this book is not in your shelf");
 
         } else if (found.size() == 1) {
             Book selection = found.get(0);
-            swapStatus(bought, selection, priority);
+            swapStatus(bought, selection, priority, rem);
 
         } else {
 
@@ -175,7 +179,7 @@ public class Purchase{
                     System.out.println("This number is not in the given list");
                 } else {
                     Book book = found.get(index - 1);
-                    swapStatus(bought, book, priority);
+                    swapStatus(bought, book, priority, rem);
                 }
 
             } else if (seriesTitle != null && vol == -1) {
@@ -199,7 +203,7 @@ public class Purchase{
                             return;
                         } else {
                             Book book = found.get(index - 1);
-                            swapStatus(bought, book, priority);
+                            swapStatus(bought, book, priority, rem);
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Enter number to select book or enter -1 to exit: ");
@@ -210,7 +214,7 @@ public class Purchase{
                 //change all books in series
                 if (author != null) {
                     for (Book i : found) {
-                        swapStatus(bought, i, priority);;
+                        swapStatus(bought, i, priority, rem);;
                     }
                 } else {
                     //print authors
@@ -246,7 +250,7 @@ public class Purchase{
                     String selection = authorsFound.get(index - 1);
                     for (Book i : found) {
                         if (selection.equalsIgnoreCase(i.getAuthor())) {
-                            swapStatus(bought, i, priority);
+                            swapStatus(bought, i, priority, rem);
                         }
                     }
 
