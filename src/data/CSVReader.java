@@ -58,7 +58,13 @@ public class CSVReader extends Reader{
                 String[] data = firstLine.split(",");
                 if(seriesInd != -1){
                     series = data[seriesInd];
-                    vol = Integer.parseInt(data[volInd]);
+
+                    try{
+                        vol = Integer.parseInt(data[volInd]);
+                    }catch (NumberFormatException e){
+                        vol = 0;
+                    }
+
                 }
                 author = data[authorInd];
                 title = data[titleInd];
@@ -78,6 +84,9 @@ public class CSVReader extends Reader{
         Book newBook = new Book(author, title, type, seriesTitle);
         if(purchase != null && purchase.equalsIgnoreCase("true")){
             newBook.setPurchased(true);
+            if(volume != 0){
+                newBook.setSeriesVol(volume);
+            }
         }
         System.out.println("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }
