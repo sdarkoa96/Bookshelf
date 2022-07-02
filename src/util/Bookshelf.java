@@ -54,4 +54,10 @@ public class Bookshelf {
         return false;
     }
 
+    public void toString(List<Book> typeShelf){
+        for (Book i: typeShelf) {
+            System.out.println(i.toString());
+        }
+    }
+
 }
