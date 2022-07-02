@@ -54,7 +54,8 @@ public class Bookshelf {
         return false;
     }
 
-    public void toString(List<Book> typeShelf){
+    public void toString(String type){
+        List<Book> typeShelf = shelf.getBooks().get(type);
         for (Book i: typeShelf) {
             System.out.println(i.toString());
         }

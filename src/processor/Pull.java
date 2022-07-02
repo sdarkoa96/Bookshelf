@@ -30,4 +30,9 @@ public class Pull <E>{
         }
 
     }
+
+    public void pullShelf(String type){
+        shelf.toString(type);
+
+    }
 }
