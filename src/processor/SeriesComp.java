@@ -11,8 +11,12 @@ public class SeriesComp implements BookComparator{
 
     @Override
     public <E> boolean eqBook(Book book1, E series) {
-        String seriesStr = (String) series;
-        return Objects.equals(book1.getSeriesTitle().toLowerCase(), seriesStr.toLowerCase());
+        String seriesStr = null;
+        if(series != null){
+            seriesStr = (String) series;
+            seriesStr = seriesStr.toLowerCase();
+        }
+        return Objects.equals(book1.getSeriesTitle().toLowerCase(), seriesStr);
     }
 
 

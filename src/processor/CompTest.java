@@ -1,6 +1,7 @@
 package processor;
 
 import org.junit.Before;
+import org.junit.Test;
 import util.Book;
 
 import static org.junit.Assert.*;
@@ -22,6 +23,22 @@ public class CompTest {
         this.book2.setPriority(1);
         this.book3.setPriority(3);
         this.book4.setPriority(2);
+    }
+
+    @Test
+    public void seriesCompTest(){
+        assertFalse(series.eqBook(book2,null));
+    }
+
+    @Test
+    public void titleCompTest(){
+        assertTrue(title.eqBook(book1,"about"));
+        assertTrue(title.eqBook(book1,"all about"));
+        assertTrue(title.eqBook(book1,"all about love"));
+        assertFalse(title.eqBook(book1,"change"));
+
+        //figure out regex for "look for this word EXACTLY and ignore case"
+//        assertFalse(title.eqBook(book1,"bout"));
     }
 
 }
