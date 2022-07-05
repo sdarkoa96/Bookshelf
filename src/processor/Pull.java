@@ -11,19 +11,16 @@ import java.util.Map;
  */
 public class Pull <E>{
     Bookshelf shelf = Bookshelf.getShelf();
-    BookComparator comp = null;
-    E pullFactor = null;
 
-    public Pull(BookComparator comp, E pullFactor){
-        this.comp = comp;
-        this.pullFactor = pullFactor;
+
+    public Pull(){
     }
 
-    public void pullBooks(){
+    public void pullBooks(BookComparator comp, E pullFactor){
         System.out.println("Here are your books: ");
         for(Map.Entry<String, List<Book>> pair: shelf.getBooks().entrySet()){
             for(Book i: pair.getValue()){
-                if(this.comp.eqBook(i,pullFactor)){
+                if(comp.eqBook(i,pullFactor)){
                     System.out.println(i.toString());
                 }
             }
@@ -32,6 +29,7 @@ public class Pull <E>{
     }
 
     public void pullShelf(String type){
+        System.out.println("Here are your books: ");
         shelf.toString(type);
 
     }

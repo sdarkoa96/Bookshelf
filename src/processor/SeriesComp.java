@@ -16,6 +16,11 @@ public class SeriesComp implements BookComparator{
             seriesStr = (String) series;
             seriesStr = seriesStr.toLowerCase();
         }
+
+        if (book1.getSeriesTitle() == null){
+            return Objects.equals(book1.getSeriesTitle(), seriesStr);
+        }
+
         return Objects.equals(book1.getSeriesTitle().toLowerCase(), seriesStr);
     }
 

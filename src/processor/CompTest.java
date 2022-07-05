@@ -26,8 +26,26 @@ public class CompTest {
     }
 
     @Test
+    public void authorCompTest(){
+        assertTrue(author.eqBook(book1,"bell Hooks"));
+        assertTrue(author.eqBook(book2,"Tite Kubo"));
+        assertTrue(author.eqBook(book3,"n.k. jemisin"));
+
+    }
+
+    @Test
+    public void priorityCompTest(){
+        assertTrue(priority.eqBook(book3,3));
+        assertTrue(priority.eqBook(book1,2));
+        assertTrue(priority.eqBook(book4,2));
+    }
+
+    @Test
     public void seriesCompTest(){
         assertFalse(series.eqBook(book2,null));
+        assertTrue(series.eqBook(book1,null));
+        assertTrue(series.eqBook(book3,"Shattered Earth"));
+
     }
 
     @Test
