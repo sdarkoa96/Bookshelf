@@ -13,8 +13,8 @@ public class CSVReaderTest {
 
     @Test
     public void readBook() throws IOException {
-        CSVReader testA = new CSVReader("test1.csv");
-        testA.readBook();
+        CSVReader testA = new CSVReader();
+        testA.readBook("test1.csv");
         assertFalse(shelf.getBooks().get("comic").isEmpty());
 //        assertEquals(9,shelf.getBooks().get("fiction").size());
     }

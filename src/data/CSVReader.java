@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Locale;
 
 public class CSVReader extends Reader{
-    public CSVReader(String filename) {
-        super(filename);
+    public CSVReader() {
+        super();
     }
 
     @Override
     /**
      * read from a text file that has data to create a book
      */
-    public void readBook() throws IOException {
-        FileReader fr = new FileReader(this.filename);
+    public void readBook(String filename) throws IOException {
+        FileReader fr = new FileReader(filename);
         BufferedReader br = new BufferedReader(fr);
 
         String firstLine = br.readLine();

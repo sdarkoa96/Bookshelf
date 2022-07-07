@@ -7,15 +7,15 @@ import java.io.IOException;
 
 public abstract class Reader {
 
-    String filename;
+
 
     Bookshelf shelf = Bookshelf.getShelf();
 
-    public Reader(String filename){
-        this.filename = filename;
+    public Reader(){
+
     }
 
-    public abstract void readBook() throws IOException;
+    public abstract void readBook(String filename) throws IOException;
     public abstract void newBook(String author, String title, String type, String seriesTitle, int volume, String purchase);
 
 }
