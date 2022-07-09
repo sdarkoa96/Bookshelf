@@ -99,65 +99,68 @@ public class Output {
         }
     }
 
+    public void upStatusChoice(Boolean bought, Integer priority, boolean remove){
+        //get type
+        System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
+        Scanner pullOption = new Scanner(System.in);
+        String[] types = {"fiction","non-fiction","comic"};
+        int typeInd = -1;
+        while (true){
+            try{
+                typeInd = pullOption.nextInt();
+                if(typeInd > -1 && typeInd < 4) {
+                    break;
+                }
+            }catch (Exception e){
+                System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
+            }
+        }
+        String type = types[typeInd];
+
+        //get series
+        System.out.println("If your book(s) are a part of a series enter the series name, if not enter -1");
+        String seriesTitle = pullOption.next();
+        if(seriesTitle.equals("-1")){
+            seriesTitle = null;
+        }
+
+        //get vol
+        int vol = 0;
+        if(seriesTitle != null) {
+            System.out.println("If you want to remove all the volumes of a series enter 0." +
+                    " If you would like to remove multiple volumes in a series enter -1." +
+                    " If you would like to remove one volume of a series, enter the volume number.");
+
+            while(true){
+                try {
+                    vol = pullOption.nextInt();
+                    if(vol >= -1){
+                        break;
+                    }
+                    System.out.println("You've entered an invalid number.");
+                }catch (InputMismatchException e){
+                    System.out.println("Enter a valid number.");
+                }
+            }
+        }
+
+        //get title
+        String title = pullOption.next();
+
+        //get author
+        System.out.println("If you know the author enter their name, if not enter -1");
+        String author = pullOption.next();
+        if(author.equals("-1")){
+            author = null;
+        }
+        update.updateStatus(pullOption,bought,priority,title,author,type,seriesTitle,vol,remove);
+    }
+
     public void update(int option){
 
         switch (option){
-            case 8:
-
-                //get type
-                System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
-                Scanner pullOption = new Scanner(System.in);
-                String[] types = {"fiction","non-fiction","comic"};
-                int typeInd = -1;
-                while (true){
-                    try{
-                        typeInd = pullOption.nextInt();
-                        if(typeInd > -1 && typeInd < 4) {
-                            break;
-                        }
-                    }catch (Exception e){
-                        System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
-                    }
-                }
-                String type = types[typeInd];
-
-                //get series
-                System.out.println("If your book(s) are a part of a series enter the series name, if not enter -1");
-                String seriesTitle = pullOption.next();
-                if(seriesTitle.equals("-1")){
-                    seriesTitle = null;
-                }
-
-                //get vol
-                int vol = 0;
-                if(seriesTitle != null) {
-                    System.out.println("If you want to remove all the volumes of a series enter 0." +
-                            " If you would like to remove multiple volumes in a series enter -1." +
-                            " If you would like to remove one volume of a series, enter the volume number.");
-
-                    while(true){
-                        try {
-                            vol = pullOption.nextInt();
-                            if(vol >= -1){
-                                break;
-                            }
-                            System.out.println("You've entered an invalid number.");
-                        }catch (InputMismatchException e){
-                            System.out.println("Enter a valid number.");
-                        }
-                    }
-                }
-
-                //get title
-                String title = pullOption.next();
-
-                //get author
-                System.out.println("If you know the author enter their name, if not enter -1");
-                String author = pullOption.next();
-                if(author.equals("-1")){
-                    author = null;
-                }
-                update.updateStatus(pullOption,null,null,title,author,type,seriesTitle,vol,true);
+            case 8: upStatusChoice(null,null,true);
+            case 9:
         }
     }
 
