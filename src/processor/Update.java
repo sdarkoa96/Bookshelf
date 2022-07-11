@@ -30,6 +30,7 @@ public class Update {
         return titleNotPurchased;
     }
 
+
     /**
      * sort non purchased set by priorty of each book
      */

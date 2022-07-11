@@ -48,7 +48,7 @@ public class Output {
         System.out.println("10. Show purchased book(s)"); //getter from update
         System.out.println("11. Show book(s) that have yet to be purchased"); //getter from update
         System.out.println("12. Create bookshelf document"); //flesh out write
-        System.out.println("13. Show shelf");
+        System.out.println("13. Show shelf"); //entire shelf
         System.out.println("14. Exit");
         System.out.println();
     }
@@ -71,8 +71,7 @@ public class Output {
                     System.out.println("Enter your priority level of choice (1-3): ");
                     try{
                         priority = pullOption.nextInt();
-                    }catch (InputMismatchException e){
-                        continue;
+                    }catch (InputMismatchException ignored){
                     }
                 }
                 pull.pullBooks(priorityComp,priority);
@@ -156,19 +155,31 @@ public class Output {
         update.updateStatus(pullOption,bought,priority,title,author,type,seriesTitle,vol,remove);
     }
 
-    public void update(int option){
-
-        switch (option){
-            case 8: upStatusChoice(null,null,true);
-            case 9:
-        }
+    public void input(){
+        Scanner inputScan = new Scanner(System.in);
+        this.input.inputBook(inputScan);
     }
+
+    public void csv() {
+        Scanner csvScan = new Scanner(System.in);
+        System.out.println("Enter your filename/path: ");
+        String filename = csvScan.next();
+        try {
+            this.csv.readBook(filename);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
 
     public void execute() throws IOException {
         Scanner scan = new Scanner(System.in);
-        while (true){
+        boolean execute = true;
+        while (execute){
             options();
             int option = -1;
+            System.out.println("BEGIN OUTPUT");
 
             while (true) {
                 try {
@@ -192,28 +203,49 @@ public class Output {
                 case 5: pull(5);
                 case 6: pull(6);
                 case 7: pull(7);
-                case 8:
-                case 14: break;
+                case 8: upStatusChoice(null,null,true);
+                case 9:
+                    option = -1;
+
+                    while (option != 1 || option != 2) {
+                        try {
+                            System.out.println("Enter 1 to set books to purchased or 2 to set them to not purchased: ");
+                            option = scan.nextInt();
+
+                        } catch (InputMismatchException | IllegalStateException e) {
+                            System.out.println("Please enter 1 or 2.");
+                        }
+                    }
+
+                    if(option == 1){
+                        upStatusChoice(true,null,false);
+                    }else if (option == 2){
+                        upStatusChoice(false,null,false);
+                    }
+                case 10:
+                    for(String i: update.getPurchased()){
+                        System.out.println(i);
+                    }
+                case 11:
+                    for(String i: update.getTitleNotPurchased()){
+                        System.out.println(i);
+                    }
+                case 12:
+                case 13:
+                    System.out.println("Fiction books:");
+                    shelf.toString("fiction");
+                    System.out.println("Non-fiction books:");
+                    shelf.toString("non-fiction");
+                    System.out.println("Comic books:");
+                    shelf.toString("comic");
+                case 14:
+                    System.out.println("END OUTPUT");
+                    execute = false;
             }
 
         }
         scan.close();
     }
 
-    public void input(){
-        Scanner inputScan = new Scanner(System.in);
-        this.input.inputBook(inputScan);
-    }
 
-    public void csv() {
-        Scanner csvScan = new Scanner(System.in);
-        System.out.println("Enter your filename/path: ");
-        String filename = csvScan.next();
-        try {
-            this.csv.readBook(filename);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-    }
 }
