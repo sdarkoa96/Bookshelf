@@ -85,6 +85,26 @@ public class Input {
             book.setSeriesVol(seriesVol);
         }
 
+        System.out.println("Have you purchased this book Y/N?");
+        ans = scan.next();
+        book.setPurchased(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes"));
+
+        if(!book.isPurchased()){
+            while (true){
+                System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
+                try {
+                    int answer = scan.nextInt();
+                    if(answer>0 || answer<4){
+                        book.setPriority(answer);
+                        break;
+                    }
+                }catch (InputMismatchException e){
+//                    System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
+                }
+            }
+        }else {
+            book.setPriority(-1);
+        }
 
         scan.close(); //close scanner
     }
