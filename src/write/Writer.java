@@ -54,7 +54,7 @@ public class Writer {
         }
     }
 
-    public void write(String filename, Scanner scan) throws IOException {
+    public void write(String filename) throws IOException {
         FileWriter fw = new FileWriter(filename);
         PrintWriter pw = new PrintWriter(fw);
 

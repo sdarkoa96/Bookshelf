@@ -19,7 +19,7 @@ public class CSVReader extends Reader{
     /**
      * read from a text file that has data to create a book
      */
-    public void readBook(String filename) throws IOException {
+    public void readBook(String filename) throws IOException, NullPointerException, SecurityException {
         FileReader fr = new FileReader(filename);
         BufferedReader br = new BufferedReader(fr);
 

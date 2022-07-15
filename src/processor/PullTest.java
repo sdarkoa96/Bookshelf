@@ -38,13 +38,13 @@ public class PullTest {
 
     @Test
     public void pullBooks() {
-        Pull<java.io.Serializable> test = new Pull<java.io.Serializable>();
+        Pull test = new Pull();
         test.pullBooks(this.author, "marissa meyer");
-        test = new Pull<java.io.Serializable>();
+        test = new Pull();
         test.pullBooks(this.series, "Sleepless");
-        test = new Pull<java.io.Serializable>();
+        test = new Pull();
         test.pullBooks(this.priority, 2);
-        test = new Pull<>();
+        test = new Pull();
         test.pullBooks(this.title, "Sorrowland");
     }
 

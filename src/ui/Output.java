@@ -4,6 +4,7 @@ import data.CSVReader;
 import data.Input;
 import processor.*;
 import util.Bookshelf;
+import write.Writer;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -15,6 +16,8 @@ public class Output {
     Pull pull = null;
     Update update = null;
 
+    Writer writer = null;
+
     AuthorComp authorComp = new AuthorComp();
     PriorityComp priorityComp = new PriorityComp();
     SeriesComp seriesComp = new SeriesComp();
@@ -25,11 +28,12 @@ public class Output {
     Bookshelf shelf = Bookshelf.getShelf();
 
 
-    public Output(CSVReader csv, Input input, Pull pull, Update update){
+    public Output(CSVReader csv, Input input, Pull pull, Update update, Writer write){
         this.csv = csv;
         this.input = input;
         this.pull = pull;
         this.update = update;
+        this.writer = write;
 
     }
 
@@ -231,6 +235,9 @@ public class Output {
                         System.out.println(i);
                     }
                 case 12:
+                    System.out.println("What would you like to name your bookshelf file? ");
+                    String file = scan.next();
+                    this.writer.write(file);
                 case 13:
                     System.out.println("Fiction books:");
                     shelf.toString("fiction");
