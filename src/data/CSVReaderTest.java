@@ -2,6 +2,7 @@ package data;
 
 import org.junit.Test;
 import util.Bookshelf;
+import logging.Logger;
 
 import java.io.IOException;
 
@@ -10,6 +11,7 @@ import static org.junit.Assert.*;
 public class CSVReaderTest {
 
     Bookshelf shelf = Bookshelf.getShelf();
+    Logger l = Logger.getInstance();
 
     @Test(expected = Exception.class)
     public void readBook() throws IOException, NullPointerException {

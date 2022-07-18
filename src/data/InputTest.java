@@ -1,5 +1,6 @@
 package data;
 
+import logging.Logger;
 import org.junit.Before;
 import org.junit.Rule;
 import org.testng.Assert;
@@ -16,6 +17,7 @@ import java.util.Scanner;
 public class InputTest {
 
     Bookshelf shelf = Bookshelf.getShelf();
+    Logger l = Logger.getInstance();
     Input testIn = new Input();
 //    @Before
 //    public void setUp(){

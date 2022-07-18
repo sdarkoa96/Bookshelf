@@ -2,6 +2,7 @@ package write;
 
 import util.Book;
 import util.Bookshelf;
+import logging.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.util.Scanner;
 public class Writer {
 
     Bookshelf shelf = Bookshelf.getShelf();
+    Logger l = Logger.getInstance();
+
 
     public Writer(){
 

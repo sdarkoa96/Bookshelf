@@ -1,5 +1,6 @@
 package data;
 
+import logging.Logger;
 import util.Book;
 import util.Bookshelf;
 
@@ -18,6 +19,7 @@ import java.util.Scanner;
 public class Input {
 
     Bookshelf shelf = Bookshelf.getShelf();
+    Logger l = Logger.getInstance();
     public Input(){
 
 
@@ -90,7 +92,7 @@ public class Input {
                 System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
                 try {
                     int answer = scan.nextInt();
-                    if(answer>0 || answer<4){
+                    if(answer>0 && answer<4){
                         book.setPriority(answer);
                         break;
                     }
@@ -107,7 +109,7 @@ public class Input {
 
     public Book newBook(String author, String title, String type, String seriesTitle){
         Book newBook = new Book(author, title, type, seriesTitle);
-        System.out.println("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
+        l.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
         return newBook;
     }
 

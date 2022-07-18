@@ -1,6 +1,7 @@
 package data;
 
 import util.Book;
+import logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class CSVReader extends Reader{
+
+    Logger l = Logger.getInstance();
     public CSVReader() {
         super();
     }
@@ -35,7 +38,7 @@ public class CSVReader extends Reader{
             System.out.println("Cannot create a book with this file");
             fr.close();
             br.close();
-            return;
+
         }else {
             //TODO: enter code to parse elements o each book by line
             int authorInd = header.indexOf("author");
@@ -88,6 +91,6 @@ public class CSVReader extends Reader{
                 newBook.setSeriesVol(volume);
             }
         }
-        System.out.println("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
+        l.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }
 }

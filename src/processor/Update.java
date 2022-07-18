@@ -2,11 +2,14 @@ package processor;
 
 import util.Book;
 import util.Bookshelf;
+import logging.Logger;
 
 import java.util.*;
 
 
 public class Update {
+
+    Logger l = Logger.getInstance();
     Bookshelf shelf = Bookshelf.getShelf();
     Set<String> purchased = new TreeSet<>();
 
@@ -54,7 +57,6 @@ public class Update {
         if(title == null || type == null || type.isBlank()){
             System.out.println("Must enter a title and book type (fiction, non-fiction, comic)");
             return null;
-//            System.exit(0);
         }else if(!(type.equalsIgnoreCase("fiction")||type.equalsIgnoreCase("comic")||type.equalsIgnoreCase("non-fiction"))){
             System.out.println("Must enter a title and book type (fiction, non-fiction, comic)");
             return null;
@@ -113,19 +115,23 @@ public class Update {
     public void swapStatus(Boolean bought, Book book, Integer priority, boolean rem){
         if(bought == null && priority != null){
             book.setPriority(priority);
+            l.logEvent(book.toString()+" priority set to: "+priority);
             sortNotPurchased();
         }else if(bought && priority == null){
             book.setPurchased(true);
+            l.logEvent(book.toString()+" set to: purchased");
             this.purchased.add(book.toString());
             this.titleNotPurchased.remove(book.toString());
         }else if(!bought && priority == null){
             book.setPurchased(false);
+            l.logEvent(book.toString()+" set to: not purchased");
             this.purchased.remove(book.toString());
             this.titleNotPurchased.add(book.toString());
         }else if(rem){
             this.shelf.getBooks().get(book.getType()).remove(book);
             this.purchased.remove(book.toString());
             this.titleNotPurchased.remove(book.toString());
+            l.logEvent(book.toString()+" removed from book shelf");
         }
     }
 

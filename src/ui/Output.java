@@ -34,7 +34,6 @@ public class Output {
         this.pull = pull;
         this.update = update;
         this.writer = write;
-
     }
 
     public void options(){
