@@ -46,12 +46,14 @@ public class InputTest {
     @Test
     public void testInputBook(){
         //figure out if it's possible to test this
-//        String author = "N.K Jemisin";
-//        String title = "The Fifth Season";
-//        Integer type = 1;
-//        char series = 'y';
-//        String seriesTitle = "The Broken Earth Triology";
-//        int vol = 1;
+        String author = "N.K Jemisin";
+        String title = "The Fifth Season";
+        Integer type = 1;
+        char series = 'y';
+        String seriesTitle = "The Broken Earth Triology";
+        int vol = 1;
+
+//        String input = "N.K "
 //
 //        InputStream in = new ByteArrayInputStream(author.getBytes());
 //        System.setIn(in);

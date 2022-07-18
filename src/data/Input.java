@@ -24,7 +24,6 @@ public class Input {
     }
 
     public void inputBook(Scanner scan){
-//        Scanner scan = new Scanner(System.in);
 
         String author = null;
         System.out.println("Enter the book author: ");
@@ -34,9 +33,6 @@ public class Input {
         System.out.println("Enter the book title: ");
         title = scan.next();
 
-//        String genre = null;
-//        System.out.println("Enter the book genre: ");
-//        genre = scan.next();
 
         String type = null;
         int typeBook = 0;
@@ -80,7 +76,7 @@ public class Input {
             }
         }
 
-        Book book = new Book(author,title, type,seriesTitle);
+        Book book = newBook(author,title, type,seriesTitle);
         if(seriesTitle != null){
             book.setSeriesVol(seriesVol);
         }
@@ -98,8 +94,8 @@ public class Input {
                         book.setPriority(answer);
                         break;
                     }
-                }catch (InputMismatchException e){
-//                    System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
+                }catch (InputMismatchException ignored){
+
                 }
             }
         }else {
@@ -109,9 +105,10 @@ public class Input {
         scan.close(); //close scanner
     }
 
-    public void newBook(String author, String title, String type, String seriesTitle){
+    public Book newBook(String author, String title, String type, String seriesTitle){
         Book newBook = new Book(author, title, type, seriesTitle);
         System.out.println("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
+        return newBook;
     }
 
 }
