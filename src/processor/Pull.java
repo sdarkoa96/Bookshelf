@@ -17,22 +17,38 @@ public class Pull{
     }
 
     public void pullBooks(BookComparator comp, String pullFactor){
-        System.out.println("Here are your books: ");
-        for(Map.Entry<String, List<Book>> pair: shelf.getBooks().entrySet()){
-            for(Book i: pair.getValue()){
-                if(comp.eqBook(i,pullFactor)){
-                    System.out.println(i.toString());
+        if(comp == null){
+            System.out.println("You've entered an invalid comparator");
+            return;
+        }else if(pullFactor == null || pullFactor.isBlank()){
+            System.out.println("You've entered an invalid pull factor");
+            return;
+        }else {
+            System.out.println("Here are your books: ");
+            for (Map.Entry<String, List<Book>> pair : shelf.getBooks().entrySet()) {
+                for (Book i : pair.getValue()) {
+                    if (comp.eqBook(i, pullFactor)) {
+                        System.out.println(i.toString());
+                    }
                 }
             }
         }
     }
 
     public void pullBooks(BookComparator comp, Integer pullFactor){
-        System.out.println("Here are your books: ");
-        for(Map.Entry<String, List<Book>> pair: shelf.getBooks().entrySet()){
-            for(Book i: pair.getValue()){
-                if(comp.eqBook(i,pullFactor)){
-                    System.out.println(i.toString());
+        if(comp == null){
+            System.out.println("You've entered an invalid comparator");
+            return;
+        }else if(pullFactor == null){
+            System.out.println("You've entered an invalid pull factor");
+            return;
+        }else {
+            System.out.println("Here are your books: ");
+            for (Map.Entry<String, List<Book>> pair : shelf.getBooks().entrySet()) {
+                for (Book i : pair.getValue()) {
+                    if (comp.eqBook(i, pullFactor)) {
+                        System.out.println(i.toString());
+                    }
                 }
             }
         }
@@ -40,6 +56,10 @@ public class Pull{
     }
 
     public void pullShelf(String type){
+        if(type.isBlank() || type == null){
+            System.out.println("You've entered an invalid type");
+            return;
+        }
         System.out.println("Here are your books: ");
         shelf.toString(type);
 

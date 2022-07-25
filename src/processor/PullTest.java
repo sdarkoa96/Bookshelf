@@ -46,11 +46,24 @@ public class PullTest {
         test.pullBooks(this.priority, 2);
         test = new Pull();
         test.pullBooks(this.title, "Sorrowland");
+
+        System.out.println();
+        System.out.println("Egde Cases");
+        test = new Pull();
+        test.pullBooks(null, "Sorrowland");
+        test = new Pull();
+        test.pullBooks(this.priority, (Integer) null);
+        test = new Pull();
+        test.pullBooks(this.title, (String) null);
+        test = new Pull();
+        test.pullBooks(this.title, "");
     }
 
     @Test
     public void pullShelf() {
         Pull test = new Pull();
         test.pullShelf("fiction");
+        test = new Pull();
+        test.pullShelf("");
     }
 }

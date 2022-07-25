@@ -75,6 +75,9 @@ public class CSVReader extends Reader{
                 if(purchaseInd != -1){
                     purchase = data[purchaseInd];
                 }
+                if(author.isBlank() && title.isBlank()){
+                    continue;
+                }
                 newBook(author,title,type,series, vol,purchase);
             }
         }

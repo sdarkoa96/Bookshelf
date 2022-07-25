@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 public class Logger {
     private PrintWriter out;
-    public String destination;
+    public String destination = null;
     private FileWriter logWrite;
     private Logger(){}
     private static Logger instance = new Logger();
