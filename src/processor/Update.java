@@ -9,15 +9,17 @@ import java.util.*;
 
 public class Update {
 
-    Logger l = Logger.getInstance();
-    Bookshelf shelf = Bookshelf.getShelf();
+    Logger l;
+    Bookshelf shelf;
     Set<String> purchased = new TreeSet<>();
 
     Set<String> titleNotPurchased = new TreeSet<>();
 
     List<Book> notPurchased = new ArrayList<>(); //might want to make this a list of books so can sort by priority
 
-    public Update(){
+    public Update(Logger l,Bookshelf shelf){
+        this.l = l;
+        this.shelf = shelf;
         purchasedStatus();
     }
 

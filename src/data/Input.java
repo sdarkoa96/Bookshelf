@@ -18,14 +18,15 @@ import java.util.Scanner;
  */
 public class Input {
 
-    Bookshelf shelf = Bookshelf.getShelf();
-    Logger l = Logger.getInstance();
-    public Input(){
+    Bookshelf shelf;
+    Logger l;
 
-
+    public Input(Logger l,Bookshelf shelf){
+        this.l = l;
+        this.shelf = shelf;
     }
 
-    public void inputBook(Scanner scan){
+    public void inputBook (Scanner scan)throws Exception{
 
         String author = null;
         System.out.println("Enter the book author: ");

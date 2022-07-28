@@ -1,5 +1,6 @@
 package processor;
 
+import logging.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import static org.junit.Assert.*;
 
 public class UpdateTest {
     Bookshelf shelf = Bookshelf.getShelf();
+    Logger l = Logger.getInstance();
     Book book1 = null;
     Book book2 = null;
     Book book3 = null;
@@ -50,7 +52,7 @@ public class UpdateTest {
 
     @Test
     public void sortNotPurchased() {
-        Update test = new Update();
+        Update test = new Update(l,shelf);
         test.sortNotPurchased();
         List<Book> testLst = test.getNotPurchased();
         Assert.assertEquals(testLst.get(0).getTitle(),"Hood Feminism");
@@ -60,7 +62,7 @@ public class UpdateTest {
 
     @Test
     public void findBook() {
-        Update test = new Update();
+        Update test = new Update(l,shelf);
 
         //null title
         List<Book> test1 = test.findBook(null,"Silivia Morena","fiction",null,0);
@@ -101,7 +103,7 @@ public class UpdateTest {
 
     @Test
     public void swapStatus() {
-        Update test = new Update();
+        Update test = new Update(l,shelf);
         test.swapStatus(true,this.book2,null, false);
         Assert.assertTrue(this.book2.isPurchased());
 
@@ -119,7 +121,7 @@ public class UpdateTest {
 
     @Test
     public void purchasedStatus() {
-        Update test = new Update();
+        Update test = new Update(l,shelf);
         test.sortNotPurchased();
         List<Book> testLst1 = test.getNotPurchased();
         Set<String> testLst2 = test.getPurchased();

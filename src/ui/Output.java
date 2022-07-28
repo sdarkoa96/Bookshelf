@@ -2,6 +2,7 @@ package ui;
 
 import data.CSVReader;
 import data.Input;
+import org.junit.Before;
 import processor.*;
 import util.Bookshelf;
 import write.Writer;
@@ -25,15 +26,16 @@ public class Output {
 
 
 
-    Bookshelf shelf = Bookshelf.getShelf();
+    Bookshelf shelf;
 
 
-    public Output(CSVReader csv, Input input, Pull pull, Update update, Writer write){
+    public Output(CSVReader csv, Input input, Pull pull, Update update, Writer write, Bookshelf shelf){
         this.csv = csv;
         this.input = input;
         this.pull = pull;
         this.update = update;
         this.writer = write;
+        this.shelf = shelf;
     }
 
     public void options(){
@@ -158,7 +160,7 @@ public class Output {
         update.updateStatus(pullOption,bought,priority,title,author,type,seriesTitle,vol,remove);
     }
 
-    public void input(){
+    public void input() throws Exception {
         Scanner inputScan = new Scanner(System.in);
         this.input.inputBook(inputScan);
     }
@@ -176,7 +178,7 @@ public class Output {
     }
 
 
-    public void execute() throws IOException {
+    public void execute() throws Exception {
         Scanner scan = new Scanner(System.in);
         boolean execute = true;
         while (execute){
@@ -210,7 +212,7 @@ public class Output {
                 case 9:
                     option = -1;
 
-                    while (option != 1 || option != 2) {
+                    while (option > 2 || option < 1) {
                         try {
                             System.out.println("Enter 1 to set books to purchased or 2 to set them to not purchased: ");
                             option = scan.nextInt();
@@ -220,11 +222,8 @@ public class Output {
                         }
                     }
 
-                    if(option == 1){
-                        upStatusChoice(true,null,false);
-                    }else if (option == 2){
-                        upStatusChoice(false,null,false);
-                    }
+                    //if option is 1 bought is true and if option is 2 bought is false
+                    upStatusChoice(option == 1,null,false);
                 case 10:
                     for(String i: update.getPurchased()){
                         System.out.println(i);

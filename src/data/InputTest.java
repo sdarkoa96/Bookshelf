@@ -18,7 +18,7 @@ public class InputTest {
 
     Bookshelf shelf = Bookshelf.getShelf();
     Logger l = Logger.getInstance();
-    Input testIn = new Input();
+    Input testIn = new Input(l,shelf);
 //    @Before
 //    public void setUp(){
 //         testIn = new Input();

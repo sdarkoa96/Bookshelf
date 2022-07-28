@@ -21,7 +21,7 @@ public class CSVReaderTest {
 
     @Test(expected = Exception.class)
     public void readBook() throws IOException, NullPointerException {
-        CSVReader testA = new CSVReader();
+        CSVReader testA = new CSVReader(l,shelf);
         testA.readBook("test1.csv");
         assertFalse(shelf.getBooks().get("comic").isEmpty());
         assertEquals(7,shelf.getBooks().get("fiction").size());
@@ -38,7 +38,7 @@ public class CSVReaderTest {
 
     @Test
     public void newBook() {
-        CSVReader testA = new CSVReader();
+        CSVReader testA = new CSVReader(l,shelf);
         testA.newBook("Tatsuki Fujimoto","Chainsaw Man","comic","Chainsaw Man",6,"false");
         assertFalse(shelf.getBooks().get("comic").isEmpty());
     }

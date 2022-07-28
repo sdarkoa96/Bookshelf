@@ -2,6 +2,7 @@ package data;
 
 import util.Book;
 import logging.Logger;
+import util.Bookshelf;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,9 +14,14 @@ import java.util.Locale;
 
 public class CSVReader extends Reader{
 
-    Logger l = Logger.getInstance();
-    public CSVReader() {
+    Logger logger;
+    Bookshelf shelf;
+
+    public CSVReader(Logger logger, Bookshelf shelf) {
         super();
+        this.logger = logger;
+        this.shelf = shelf;
+
     }
 
     @Override
@@ -40,7 +46,7 @@ public class CSVReader extends Reader{
             br.close();
 
         }else {
-            //TODO: enter code to parse elements o each book by line
+
             int authorInd = header.indexOf("author");
             int titleInd = header.indexOf("title");
             int typeInd = header.indexOf("type");
@@ -61,6 +67,9 @@ public class CSVReader extends Reader{
                 String[] data = firstLine.split(",");
                 if(seriesInd != -1){
                     series = data[seriesInd];
+                    if(series.isBlank()){
+                        series = null;
+                    }
 
                     try{
                         vol = Integer.parseInt(data[volInd]);
@@ -94,6 +103,6 @@ public class CSVReader extends Reader{
                 newBook.setSeriesVol(volume);
             }
         }
-        l.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
+        logger.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }
 }

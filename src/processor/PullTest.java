@@ -38,32 +38,32 @@ public class PullTest {
 
     @Test
     public void pullBooks() {
-        Pull test = new Pull();
+        Pull test = new Pull(shelf);
         test.pullBooks(this.author, "marissa meyer");
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullBooks(this.series, "Sleepless");
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullBooks(this.priority, 2);
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullBooks(this.title, "Sorrowland");
 
         System.out.println();
         System.out.println("Egde Cases");
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullBooks(null, "Sorrowland");
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullBooks(this.priority, (Integer) null);
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullBooks(this.title, (String) null);
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullBooks(this.title, "");
     }
 
     @Test
     public void pullShelf() {
-        Pull test = new Pull();
+        Pull test = new Pull(shelf);
         test.pullShelf("fiction");
-        test = new Pull();
+        test = new Pull(shelf);
         test.pullShelf("");
     }
 }

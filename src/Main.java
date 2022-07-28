@@ -1,22 +1,37 @@
 import data.CSVReader;
 import data.Input;
+import logging.Logger;
 import processor.Pull;
 import processor.Update;
 import ui.Output;
+import util.Bookshelf;
 import write.Writer;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        CSVReader csv = new CSVReader();
-        Input input = new Input();
-        Pull pull = new Pull();
-        Update update = new Update();
-        Writer writer = new Writer();
-        Output output = new Output(csv,input,pull,update,writer);
 
-        output.execute();
+        Logger logger = Logger.getInstance();
+
+        //TODO: have user set destination of logger
+        Bookshelf shelf = Bookshelf.getShelf();
+
+        CSVReader csv = new CSVReader(logger,shelf);
+        Input input = new Input(logger,shelf);
+        Pull pull = new Pull(shelf);
+        Update update = new Update(logger,shelf);
+        Writer writer = new Writer(shelf);
+        Output output = new Output(csv,input,pull,update,writer,shelf);
+
+
+        try{
+            output.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 
 }

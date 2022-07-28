@@ -16,12 +16,11 @@ import java.util.Scanner;
 
 public class Writer {
 
-    Bookshelf shelf = Bookshelf.getShelf();
-    Logger l = Logger.getInstance();
+    Bookshelf shelf;
 
 
-    public Writer(){
-
+    public Writer(Bookshelf shelf){
+        this.shelf = shelf;
     }
 
     public void wrtLn(PrintWriter pw, Book i){
@@ -40,28 +39,27 @@ public class Writer {
             seriesTitle = "";
         }
 
-        StringBuilder toWrite = new StringBuilder(title);
-        toWrite.append(author);
-        toWrite.append(seriesTitle);
-        toWrite.append(vol);
+        StringBuilder toWrite = new StringBuilder(title+",");
+        toWrite.append(author).append(",");
+        toWrite.append(seriesTitle).append(",");
+        toWrite.append(vol).append(",");
         if(purchased){
-            toWrite.append("Y");
-            toWrite.append(i.getPriority());
-            toWrite.append(type);
-            pw.write(toWrite.toString());
+            toWrite.append("Y,");
         }else {
-            toWrite.append("N");
-            toWrite.append(i.getPriority());
-            toWrite.append(type);
-            pw.write(toWrite.toString());
+            toWrite.append("N,");
         }
+        toWrite.append(i.getPriority()).append(",");
+        toWrite.append(type);
+        pw.write(toWrite.toString());
+        pw.write("\n");
     }
 
     public void write(String filename) throws IOException {
         FileWriter fw = new FileWriter(filename);
         PrintWriter pw = new PrintWriter(fw);
 
-        pw.write("Title, Author, Series, Volume, Purchased, Priority, Type");
+        pw.write("Title,Author,Series,Volume,Purchased,Priority,Type");
+        pw.write("\n");
 
         List<Book> fiction = shelf.getBooks().get("fiction");
 
