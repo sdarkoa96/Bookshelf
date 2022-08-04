@@ -18,7 +18,6 @@ public class Writer {
 
     Bookshelf shelf;
 
-
     public Writer(Bookshelf shelf){
         this.shelf = shelf;
     }
@@ -54,7 +53,7 @@ public class Writer {
         pw.write("\n");
     }
 
-    public void write(String filename) throws IOException {
+    public void write(String filename) throws Exception {
         FileWriter fw = new FileWriter(filename);
         PrintWriter pw = new PrintWriter(fw);
 

@@ -81,12 +81,17 @@ public class CSVReader extends Reader{
                 author = data[authorInd];
                 title = data[titleInd];
                 type = data[typeInd];
+                if(!type.equalsIgnoreCase("non-fiction")&&!type.equalsIgnoreCase("fiction")&&!type.equalsIgnoreCase("comic")){
+                    continue;
+                }
+                if(author == null || title == null|| author.isBlank() || title.isBlank()){
+                    continue;
+                }
+
                 if(purchaseInd != -1){
                     purchase = data[purchaseInd];
                 }
-                if(author.isBlank() && title.isBlank()){
-                    continue;
-                }
+
                 newBook(author,title,type,series, vol,purchase);
             }
         }
@@ -96,12 +101,14 @@ public class CSVReader extends Reader{
 
     @Override
     public void newBook(String author, String title, String type, String seriesTitle, int volume,String purchase){
+
         Book newBook = new Book(author, title, type, seriesTitle);
+        if(volume != 0){
+            newBook.setSeriesVol(volume);
+        }
         if(purchase != null && purchase.equalsIgnoreCase("true")){
             newBook.setPurchased(true);
-            if(volume != 0){
-                newBook.setSeriesVol(volume);
-            }
+
         }
         logger.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }

@@ -30,6 +30,9 @@ public class CompTest {
         assertTrue(author.eqBook(book1,"bell Hooks"));
         assertTrue(author.eqBook(book2,"Tite Kubo"));
         assertTrue(author.eqBook(book3,"n.k. jemisin"));
+        assertFalse(author.eqBook(null,"enter"));
+        assertFalse(author.eqBook(book4,null));
+        assertFalse(author.eqBook(book4,""));
 
     }
 
@@ -38,6 +41,8 @@ public class CompTest {
         assertTrue(priority.eqBook(book3,3));
         assertTrue(priority.eqBook(book1,2));
         assertTrue(priority.eqBook(book4,2));
+        assertFalse(priority.eqBook(null,2));
+        assertFalse(priority.eqBook(book1,"NO"));
     }
 
     @Test
@@ -45,6 +50,8 @@ public class CompTest {
         assertFalse(series.eqBook(book2,null));
         assertTrue(series.eqBook(book1,null));
         assertTrue(series.eqBook(book3,"Shattered Earth"));
+        assertFalse(series.eqBook(null,"Bleach"));
+
 
     }
 
@@ -54,6 +61,7 @@ public class CompTest {
         assertTrue(title.eqBook(book1,"all about"));
         assertTrue(title.eqBook(book1,"all about love"));
         assertFalse(title.eqBook(book1,"change"));
+        assertFalse(title.eqBook(null,"change"));
 
         //figure out regex for "look for this word EXACTLY and ignore case"
 //        assertFalse(title.eqBook(book1,"bout"));

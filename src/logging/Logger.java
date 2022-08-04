@@ -23,10 +23,12 @@ public class Logger {
 
     //set or changes output destination
     public void setDestination(String filename) throws IOException, SecurityException, NullPointerException {
-        boolean append = true; //boolean to determine whether or not to append to a file
+        boolean append = true; //boolean to determine whether to append to a file
 
         //checks whether writing to a new file or old one
-        if(this.destination == null){
+        if(filename.isBlank()){
+            setDestination();
+        }else if(this.destination == null){
             this.destination = filename;
         }else if(!(this.destination.equals(filename))){
             append = false;

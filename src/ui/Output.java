@@ -10,8 +10,11 @@ import write.Writer;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Output {
+
+    Scanner scan = null;
     CSVReader csv = null;
     Input input = null;
     Pull pull = null;
@@ -23,13 +26,11 @@ public class Output {
     PriorityComp priorityComp = new PriorityComp();
     SeriesComp seriesComp = new SeriesComp();
     TitleComp titleComp = new TitleComp();
-
-
-
     Bookshelf shelf;
 
 
-    public Output(CSVReader csv, Input input, Pull pull, Update update, Writer write, Bookshelf shelf){
+    public Output(CSVReader csv, Input input, Pull pull, Update update, Writer write, Bookshelf shelf, Scanner scan){
+        this.scan = scan;
         this.csv = csv;
         this.input = input;
         this.pull = pull;
@@ -39,7 +40,7 @@ public class Output {
     }
 
     public void options(){
-        System.out.println("Welcome to your book shelf. Please select an option.");
+
         System.out.println();
         System.out.println("1. Manually enter book(s) to add to bookshelf"); //call input
         System.out.println("2. Read book(s) from a file to add to bookshelf"); //csvreader
@@ -52,7 +53,7 @@ public class Output {
         System.out.println("9. Update purchase status of book(s) from bookshelf");
         System.out.println("10. Show purchased book(s)"); //getter from update
         System.out.println("11. Show book(s) that have yet to be purchased"); //getter from update
-        System.out.println("12. Create bookshelf document"); //flesh out write
+        System.out.println("12. Create bookshelf document");
         System.out.println("13. Show shelf"); //entire shelf
         System.out.println("14. Exit");
         System.out.println();
@@ -60,70 +61,79 @@ public class Output {
 
     public void pull(int option){
         Scanner pullOption = new Scanner(System.in);
-        switch (option){
-            case 3:
+        switch (option) {
+            case 3 -> {
                 System.out.println("Enter your author: ");
                 String author = pullOption.next();
-                pull.pullBooks(authorComp,author);
-            case 4:
+                pull.pullBooks(authorComp, author);
+
+            }
+            case 4 -> {
                 System.out.println("Enter your book title: ");
                 String title = pullOption.next();
-                pull.pullBooks(titleComp,title);
-            case 5:
+                pull.pullBooks(titleComp, title);
 
+            }
+            case 5 -> {
                 int priority = -1;
-                while (priority>3 || priority<1){
+                while (priority > 3 || priority < 1) {
                     System.out.println("Enter your priority level of choice (1-3): ");
-                    try{
+                    try {
                         priority = pullOption.nextInt();
-                    }catch (InputMismatchException ignored){
+                    } catch (InputMismatchException ignored) {
                     }
                 }
-                pull.pullBooks(priorityComp,priority);
-            case 6:
+                pull.pullBooks(priorityComp, priority);
+
+            }
+            case 6 -> {
                 System.out.println("Enter your series title: ");
                 String series = pullOption.next();
-                pull.pullBooks(seriesComp,series);
+                pull.pullBooks(seriesComp, series);
 
-            case 7:
-                String[] types = {"fiction","non-fiction","comic"};
+            }
+            case 7 -> {
+                String[] types = {"fiction", "non-fiction", "comic"};
                 System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
                 int typeInd = -1;
-                while (true){
+                while (true) {
                     typeInd = pullOption.nextInt();
-                    try{
-                        pull.pullShelf(types[typeInd-1]);
+                    try {
+                        pull.pullShelf(types[typeInd - 1]);
                         break;
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
                     }
                 }
 
-
+            }
         }
     }
 
     public void upStatusChoice(Boolean bought, Integer priority, boolean remove){
         //get type
         System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
-        Scanner pullOption = new Scanner(System.in);
+
         String[] types = {"fiction","non-fiction","comic"};
         int typeInd = -1;
         while (true){
+            this.scan = new Scanner(System.in);
             try{
-                typeInd = pullOption.nextInt();
+                typeInd = this.scan.nextInt();
                 if(typeInd > -1 && typeInd < 4) {
                     break;
                 }
             }catch (Exception e){
                 System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
             }
+
         }
         String type = types[typeInd];
 
         //get series
+        this.scan = new Scanner(System.in);
         System.out.println("If your book(s) are a part of a series enter the series name, if not enter -1");
-        String seriesTitle = pullOption.next();
+        String seriesTitle = this.scan.next();
         if(seriesTitle.equals("-1")){
             seriesTitle = null;
         }
@@ -131,13 +141,14 @@ public class Output {
         //get vol
         int vol = 0;
         if(seriesTitle != null) {
+
             System.out.println("If you want to remove all the volumes of a series enter 0." +
                     " If you would like to remove multiple volumes in a series enter -1." +
                     " If you would like to remove one volume of a series, enter the volume number.");
-
             while(true){
+                this.scan = new Scanner(System.in);
                 try {
-                    vol = pullOption.nextInt();
+                    vol = this.scan.nextInt();
                     if(vol >= -1){
                         break;
                     }
@@ -149,73 +160,112 @@ public class Output {
         }
 
         //get title
-        String title = pullOption.next();
+        this.scan = new Scanner(System.in);
+        String title = this.scan.next();
 
         //get author
         System.out.println("If you know the author enter their name, if not enter -1");
-        String author = pullOption.next();
+        this.scan = new Scanner(System.in);
+        String author = this.scan.next();
         if(author.equals("-1")){
             author = null;
         }
-        update.updateStatus(pullOption,bought,priority,title,author,type,seriesTitle,vol,remove);
+        update.updateStatus(this.scan,bought,priority,title,author,type,seriesTitle,vol,remove);
+
     }
 
     public void input() throws Exception {
-        Scanner inputScan = new Scanner(System.in);
-        this.input.inputBook(inputScan);
+        this.scan = new Scanner(System.in);
+        this.input.inputBook(this.scan);
+
     }
 
     public void csv() {
-        Scanner csvScan = new Scanner(System.in);
+        this.scan = new Scanner(System.in);
         System.out.println("Enter your filename/path: ");
-        String filename = csvScan.next();
+        String filename = this.scan.next();
         try {
             this.csv.readBook(filename);
         }catch (IOException e){
             e.printStackTrace();
         }
-
     }
 
-
     public void execute() throws Exception {
-        Scanner scan = new Scanner(System.in);
+
         boolean execute = true;
+        boolean shelfFilled = false;
+        System.out.println("Welcome to your book shelf.");
         while (execute){
             options();
+
+            System.out.println("Please select an option.");
+
             int option = -1;
-            System.out.println("BEGIN OUTPUT");
 
             while (true) {
+
                 try {
-                    option = scan.nextInt();
+                    option = this.scan.nextInt();
+                    this.scan = new Scanner(System.in);
                     break;
                 } catch (InputMismatchException | IllegalStateException e) {
                     System.out.println("Please enter a number.");
                 }
             }
 
-            while (option > 14 || option < 1){
-                System.out.println("Please enter a valid option.");
-                option = scan.nextInt();
+
+            while (true){
+
+
+                if(option > 14 || option < 1){
+                    System.out.println("Please enter a valid option.");
+                }
+                else if(option <= 2 || shelfFilled){
+                    break;
+                }
+                option = this.scan.nextInt();
+                this.scan = new Scanner(System.in);
+
             }
 
             switch (option){
-                case 1: input();
-                case 2: csv();
-                case 3: pull(3);
-                case 4: pull(4);
-                case 5: pull(5);
-                case 6: pull(6);
-                case 7: pull(7);
-                case 8: upStatusChoice(null,null,true);
-                case 9:
+                case 1 ->  {
+                    input();
+                    shelfFilled = true;
+                }
+
+                case 2 -> {
+                    csv();
+                    shelfFilled = true;
+                }
+                case 3 ->{
+                    pull(3);
+                }
+
+                case 4 -> {
+                    pull(4);
+                }
+                case 5 -> {
+                    pull(5);
+                }
+                case 6 -> {
+                    pull(6);
+                }
+                case 7 -> {
+                    pull(7);
+                }
+                case 8 -> {
+                    upStatusChoice(null,null,true);
+                }
+                case 9 -> {
+                    this.scan = new Scanner(System.in);
                     option = -1;
 
                     while (option > 2 || option < 1) {
                         try {
                             System.out.println("Enter 1 to set books to purchased or 2 to set them to not purchased: ");
-                            option = scan.nextInt();
+                            option = this.scan.nextInt();
 
                         } catch (InputMismatchException | IllegalStateException e) {
                             System.out.println("Please enter 1 or 2.");
@@ -223,33 +273,41 @@ public class Output {
                     }
 
                     //if option is 1 bought is true and if option is 2 bought is false
-                    upStatusChoice(option == 1,null,false);
-                case 10:
-                    for(String i: update.getPurchased()){
+                    upStatusChoice(option == 1, null, false);
+                }
+                case 10 -> {
+                    for (String i : update.getPurchased()) {
                         System.out.println(i);
                     }
-                case 11:
-                    for(String i: update.getTitleNotPurchased()){
+                }
+                case 11-> {
+                    for (String i : update.getTitleNotPurchased()) {
                         System.out.println(i);
                     }
-                case 12:
+                }
+                case 12 -> {
+                    this.scan = new Scanner(System.in);
                     System.out.println("What would you like to name your bookshelf file? ");
-                    String file = scan.next();
+                    String file = this.scan.next();
                     this.writer.write(file);
-                case 13:
+                }
+                case 13 -> {
                     System.out.println("Fiction books:");
                     shelf.toString("fiction");
                     System.out.println("Non-fiction books:");
                     shelf.toString("non-fiction");
                     System.out.println("Comic books:");
                     shelf.toString("comic");
-                case 14:
-                    System.out.println("END OUTPUT");
+                }
+                case 14 -> {
+                    System.out.println("GOODBYE");
                     execute = false;
+                }
             }
 
+            TimeUnit.SECONDS.sleep(1);
+
         }
-        scan.close();
     }
 
 

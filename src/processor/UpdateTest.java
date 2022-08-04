@@ -24,6 +24,7 @@ public class UpdateTest {
 
     @Before
     public void setUp() throws Exception {
+        l.setDestination();
 
         book1 = new Book("NK Jemisin","The Fifth Season","fiction","The Broken Earth Trilogy");
         book1.setSeriesVol(1);

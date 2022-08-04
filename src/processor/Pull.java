@@ -26,7 +26,11 @@ public class Pull{
         }else {
             System.out.println("Here are your books: ");
             for (Map.Entry<String, List<Book>> pair : shelf.getBooks().entrySet()) {
+                if(pair.getValue().isEmpty()){
+                    continue;
+                }
                 for (Book i : pair.getValue()) {
+
                     if (comp.eqBook(i, pullFactor)) {
                         System.out.println(i.toString());
                     }
@@ -43,6 +47,9 @@ public class Pull{
         }else {
             System.out.println("Here are your books: ");
             for (Map.Entry<String, List<Book>> pair : shelf.getBooks().entrySet()) {
+                if(pair.getValue().isEmpty()){
+                    continue;
+                }
                 for (Book i : pair.getValue()) {
                     if (comp.eqBook(i, pullFactor)) {
                         System.out.println(i.toString());

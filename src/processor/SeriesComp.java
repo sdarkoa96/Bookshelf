@@ -11,6 +11,9 @@ public class SeriesComp implements BookComparator{
 
     @Override
     public <E> boolean eqBook(Book book1, E series) {
+        if(book1 == null){
+            return false;
+        }
         String seriesStr = null;
         if(series != null){
             seriesStr = (String) series;

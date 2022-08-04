@@ -182,9 +182,7 @@ public class Update {
                     }
                 }
 
-                if (index <= 0) {
-                    return;
-                } else if (index > found.size()) {
+                if (index > found.size()) {
                     System.out.println("This number is not in the given list");
                 } else {
                     Book book = found.get(index - 1);
@@ -201,7 +199,7 @@ public class Update {
 
 
                 int index = 0;
-                while (index != -1) {
+                while (true) {
                     try {
                         System.out.println("Enter number to select book or enter -1 to exit: ");
                         index = scan.nextInt();
@@ -265,12 +263,9 @@ public class Update {
 
                 }
 
-            } else if (seriesTitle != null && vol > 0) {
-                //this condition is not necessary since can't have dupes
-                return;
-
             }
         }
+
     }
 
 

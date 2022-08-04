@@ -28,84 +28,110 @@ public class Input {
 
     public void inputBook (Scanner scan)throws Exception{
 
-        String author = null;
-        System.out.println("Enter the book author: ");
-        author = scan.next();
-
-        String title = null;
-        System.out.println("Enter the book title: ");
-        title = scan.next();
-
-
-        String type = null;
-        int typeBook = 0;
-        System.out.println("Enter 1 for fiction, 2 for non-fiction, or 3 for a comic: ");
-        while(true){
+        System.out.println("How many books would you like to enter?");
+        int loops = -1;
+        do {
             try {
-                typeBook = scan.nextInt();
-                switch (typeBook){
-                    case 1:
-                        type = "fiction";
-                    case 2:
-                        type = "non-fiction";
-                    case 3:
-                        type = "comic";
-                }
-                break;
-            }catch (InputMismatchException e){
-                System.out.println("Enter 1 for fiction, 2 for non-fiction, or 3 for a comic: ");
+                loops = scan.nextInt();
+            } catch (Exception e) {
+                System.out.println("Please enter a positive number: ");
             }
-        }
+            scan = new Scanner(System.in);
+        } while (loops <= -1);
 
-        String seriesTitle = null;
-        int seriesVol = 0;
-        System.out.println("Is this book a part of a series Y/N?");
+        int count = 0;
 
-        String ans = scan.next();
-        if(ans.length() == 1){
-            char answer = ans.charAt(0);
-            if (answer == 'y' || answer == 'Y'){
-                System.out.println("Enter series title: ");
-                seriesTitle = scan.next();
-
-                while(true){
-                    try{
-                        seriesVol = scan.nextInt();
-                        break;
-                    }catch (InputMismatchException e){
-                        System.out.println("Enter a the volume number.");
-                    }
-                }
+        while (count != loops){
+            String author = null;
+            System.out.println("Enter the book author: ");
+            while (author == null || author.isBlank()) {
+                author = scan.next();
             }
-        }
 
-        Book book = newBook(author,title, type,seriesTitle);
-        if(seriesTitle != null){
-            book.setSeriesVol(seriesVol);
-        }
+            scan = new Scanner(System.in);
+            String title = null;
+            System.out.println("Enter the book title: ");
+            while(title == null || title.isBlank()){
+                title = scan.nextLine();
+            }
 
-        System.out.println("Have you purchased this book Y/N?");
-        ans = scan.next();
-        book.setPurchased(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes"));
 
-        if(!book.isPurchased()){
-            while (true){
-                System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
+            scan = new Scanner(System.in);
+            String type = null;
+            int typeBook = 0;
+            System.out.println("Enter 1 for fiction, 2 for non-fiction, or 3 for a comic: ");
+            while(true){
                 try {
-                    int answer = scan.nextInt();
-                    if(answer>0 && answer<4){
-                        book.setPriority(answer);
-                        break;
+                    typeBook = scan.nextInt();
+                    switch (typeBook){
+                        case 1:
+                            type = "fiction";
+                        case 2:
+                            type = "non-fiction";
+                        case 3:
+                            type = "comic";
                     }
-                }catch (InputMismatchException ignored){
-
+                    break;
+                }catch (InputMismatchException e){
+                    System.out.println("Enter 1 for fiction, 2 for non-fiction, or 3 for a comic: ");
                 }
             }
-        }else {
-            book.setPriority(-1);
+
+            String seriesTitle = null;
+            int seriesVol = 0;
+            System.out.println("Is this book a part of a series Y/N?");
+
+            String ans = scan.next();
+            if(ans.length() == 1){
+                char answer = ans.charAt(0);
+                if (answer == 'y' || answer == 'Y'){
+                    System.out.println("Enter series title: ");
+                    seriesTitle = scan.next();
+                    scan = new Scanner(System.in);
+
+                    while(true){
+                        try{
+                            System.out.println("Enter a the volume number.");
+                            seriesVol = scan.nextInt();
+                            break;
+                        }catch (InputMismatchException e){
+                            System.out.println("Enter a the volume number.");
+                        }
+                    }
+                }
+            }
+
+            Book book = newBook(author,title, type,seriesTitle);
+            if(seriesTitle != null){
+                book.setSeriesVol(seriesVol);
+            }
+
+            scan = new Scanner(System.in);
+            System.out.println("Have you purchased this book Y/N?");
+            ans = scan.next();
+            book.setPurchased(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes"));
+
+            scan = new Scanner(System.in);
+            if(!book.isPurchased()){
+                while (true){
+                    System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
+                    try {
+                        int answer = scan.nextInt();
+                        if(answer>0 && answer<4){
+                            book.setPriority(answer);
+                            break;
+                        }
+                    }catch (InputMismatchException ignored){
+
+                    }
+                }
+            }else {
+                book.setPriority(-1);
+            }
+
+            count ++;
         }
 
-        scan.close(); //close scanner
     }
 
     public Book newBook(String author, String title, String type, String seriesTitle){
