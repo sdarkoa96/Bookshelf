@@ -105,14 +105,14 @@ public class Book {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Book: ");
-        sb.append(title);
+        sb.append(this.title);
 
-        if(series){
-            sb.append(" Vol: ").append(seriesVol);
+        if(this.series){
+            sb.append(" Vol: ").append(this.seriesVol);
         }
 
-        sb.append(" by ").append(author);
-        sb.append(" purchased: ").append(purchased);
+        sb.append(" by ").append(this.author);
+        sb.append(" purchased: ").append(this.purchased);
 
 
         return sb.toString();

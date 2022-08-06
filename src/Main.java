@@ -15,7 +15,7 @@ public class Main {
 
         Logger logger = Logger.getInstance();
 
-        //TODO: have user set destination of logger
+
         Scanner scanner = new Scanner(System.in);
         String ans = null;
         String logFile = null;
@@ -35,9 +35,8 @@ public class Main {
         CSVReader csv = new CSVReader(logger,shelf);
         Input input = new Input(logger,shelf);
         Pull pull = new Pull(shelf);
-        Update update = new Update(logger,shelf);
         Writer writer = new Writer(shelf);
-        Output output = new Output(csv,input,pull,update,writer,shelf,scanner);
+        Output output = new Output(csv,input,pull,writer,shelf,scanner,logger);
 
 
         try{

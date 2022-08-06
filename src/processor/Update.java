@@ -24,15 +24,15 @@ public class Update {
     }
 
     public Set<String> getPurchased() {
-        return purchased;
+        return this.purchased;
     }
 
     public List<Book> getNotPurchased() {
-        return notPurchased;
+        return this.notPurchased;
     }
 
     public Set<String> getTitleNotPurchased() {
-        return titleNotPurchased;
+        return this.titleNotPurchased;
     }
 
 
@@ -56,7 +56,7 @@ public class Update {
      */
     public List<Book> findBook(String title, String author, String type,String seriesTitle, int vol){
 
-        if(title == null || type == null || type.isBlank()){
+        if(title == null && vol == 0 && seriesTitle == null || type == null || type.isBlank()){
             System.out.println("Must enter a title and book type (fiction, non-fiction, comic)");
             return null;
         }else if(!(type.equalsIgnoreCase("fiction")||type.equalsIgnoreCase("comic")||type.equalsIgnoreCase("non-fiction"))){
@@ -65,6 +65,7 @@ public class Update {
         }
 
 
+        assert title != null;
         title = title.toLowerCase();
         List<Book> typeShelf = shelf.getBooks().get(type.toLowerCase());
         List<Book> found = new ArrayList<>();
@@ -82,6 +83,13 @@ public class Update {
             for (Book i: typeShelf){
                 iTitle = i.getTitle();
                 iAuthor = i.getAuthor();
+
+//                System.out.println(iAuthor+ " :: "+author);
+//                System.out.println(iAuthor.equalsIgnoreCase(author));
+//                System.out.println("VOL: "+vol);
+//                System.out.println(vol == 0 );
+                //System.out.println("SERIES "+seriesTitle.toLowerCase()+"| :: "+ i.getSeriesTitle().toLowerCase()+"|");
+//                System.out.println("SERIES "+Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase()));
                 if(seriesTitle == null){
                     if(iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author)){
                         if(vol <= 0){
@@ -91,7 +99,10 @@ public class Update {
                         }
                     }
 
-                }else if (iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author) && Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase())){
+                }else if(vol == 0 && iAuthor.equalsIgnoreCase(author) && Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase())){
+                    found.add(i);
+                }
+                else if (iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author) && Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase())){
                     if(vol <= 0){
                         found.add(i);
                     } else if (i.getSeriesVol() == vol) {
@@ -116,15 +127,17 @@ public class Update {
 
     public void swapStatus(Boolean bought, Book book, Integer priority, boolean rem){
         if(bought == null && priority != null){
-            book.setPriority(priority);
-            l.logEvent(book.toString()+" priority set to: "+priority);
-            sortNotPurchased();
-        }else if(bought && priority == null){
+            if(!book.isPurchased()){
+                book.setPriority(priority);
+                l.logEvent(book.toString()+" priority set to: "+priority);
+                sortNotPurchased();
+            }
+        }else if(Boolean.TRUE.equals(bought) && priority == null){
             book.setPurchased(true);
             l.logEvent(book.toString()+" set to: purchased");
             this.purchased.add(book.toString());
             this.titleNotPurchased.remove(book.toString());
-        }else if(!bought && priority == null){
+        }else if(Boolean.FALSE.equals(bought) && priority == null){
             book.setPurchased(false);
             l.logEvent(book.toString()+" set to: not purchased");
             this.purchased.remove(book.toString());
@@ -277,11 +290,11 @@ public class Update {
             for(Book i: pair.getValue()){
                 String bookInfo = null;
 
-                if(i.isPurchased() && !purchased.contains(i.toString())){
+                if(i.isPurchased() && !this.purchased.contains(i.toString())){
                     bookInfo = i.toString();
-                    purchased.add(bookInfo);
-                }else if (!i.isPurchased() && !notPurchased.contains(i)){
-                    notPurchased.add((i));
+                    this.purchased.add(bookInfo);
+                }else if (!i.isPurchased() && !this.notPurchased.contains(i)){
+                    this.notPurchased.add((i));
                 }
             }
 
@@ -290,7 +303,7 @@ public class Update {
 
         for(Book i: this.notPurchased){
             String bookInfo = i.toString();
-            titleNotPurchased.add(bookInfo);
+            this.titleNotPurchased.add(bookInfo);
         }
     }
 

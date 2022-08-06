@@ -24,7 +24,7 @@ public class OutputTest {
     CSVReader csv = new CSVReader(logger,shelf);
     Pull pull = new Pull(shelf);
     Scanner scanner = new Scanner(System.in);
-    Output output = new Output(csv,null,pull,null,null,shelf,scanner);
+    Output output = new Output(csv,null,pull,null,shelf,scanner,logger);
 
     @Before
     public void setUp() throws Exception {

@@ -1,5 +1,6 @@
 package processor;
 
+import data.CSVReader;
 import logging.Logger;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,11 +21,13 @@ public class UpdateTest {
     Book book3 = null;
     Book book4 = null;
     Book book5 = null;
+    CSVReader csv = new CSVReader(l,shelf);
 
 
     @Before
     public void setUp() throws Exception {
         l.setDestination();
+//        csv.readBook("test1.csv");
 
         book1 = new Book("NK Jemisin","The Fifth Season","fiction","The Broken Earth Trilogy");
         book1.setSeriesVol(1);
@@ -51,7 +54,7 @@ public class UpdateTest {
         shelf.addBook(book5);
     }
 
-    @Test
+//    @Test
     public void sortNotPurchased() {
         Update test = new Update(l,shelf);
         test.sortNotPurchased();
@@ -64,13 +67,20 @@ public class UpdateTest {
     @Test
     public void findBook() {
         Update test = new Update(l,shelf);
+//        List<Book> testSeries = test.findBook("","N.K. Jemisin","fiction","The Shattered Earth Triology",0);
+//        Assert.assertEquals(testSeries.size(),2);
+
+
+        //all the books in a series without giving a title
+        List<Book> testSeries = test.findBook("","NK Jemisin","fiction","The Broken Earth Trilogy",0);
+        Assert.assertEquals(testSeries.size(),2);
 
         //null title
         List<Book> test1 = test.findBook(null,"Silivia Morena","fiction",null,0);
         assertNull(test1);
 
         //empty title
-        test1 = test.findBook("","Tite Kubo","comic","Bleach",0);
+        test1 = test.findBook("","Tite Kubo","comic","Bleach",4);
         Assert.assertTrue(test1.isEmpty());
 
         //null author
@@ -102,7 +112,7 @@ public class UpdateTest {
 
     }
 
-    @Test
+//    @Test
     public void swapStatus() {
         Update test = new Update(l,shelf);
         test.swapStatus(true,this.book2,null, false);
@@ -128,6 +138,7 @@ public class UpdateTest {
         Set<String> testLst2 = test.getPurchased();
         Assert.assertFalse(testLst1.isEmpty());
         Assert.assertFalse(testLst2.isEmpty());
+        assertEquals(2, testLst2.size());
 
     }
 }

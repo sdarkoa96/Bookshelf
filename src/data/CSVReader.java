@@ -53,13 +53,14 @@ public class CSVReader extends Reader{
             int seriesInd = header.indexOf("series");
             int purchaseInd = header.indexOf("purchased");
             int volInd = header.indexOf("volume");
+            int priorityInd = header.indexOf("priority");
 
             String author = null;
             String title = null;
             String type = null;
             String purchase = null;
             String series = null;
-
+            int priority = 0;
             int vol = 0;
 
             while((firstLine = br.readLine()) != null){
@@ -92,7 +93,16 @@ public class CSVReader extends Reader{
                     purchase = data[purchaseInd];
                 }
 
-                newBook(author,title,type,series, vol,purchase);
+                if (priorityInd != -1){
+                    try {
+                        priority = Integer.parseInt(data[priorityInd]);
+                    }catch (Exception ignored){
+
+                    }
+
+                }
+
+                newBook(author,title,type,series, vol,purchase,priority);
             }
         }
 
@@ -100,15 +110,22 @@ public class CSVReader extends Reader{
     }
 
     @Override
-    public void newBook(String author, String title, String type, String seriesTitle, int volume,String purchase){
+    public void newBook(String author, String title, String type, String seriesTitle, int volume,String purchase, int priority){
 
         Book newBook = new Book(author, title, type, seriesTitle);
         if(volume != 0){
             newBook.setSeriesVol(volume);
         }
-        if(purchase != null && purchase.equalsIgnoreCase("true")){
-            newBook.setPurchased(true);
+        if(purchase == null){
+            newBook.setPurchased(false);
+        }
 
+        if(purchase != null && (purchase.equalsIgnoreCase("y")||purchase.equalsIgnoreCase("yes")||purchase.equalsIgnoreCase("true"))){
+            newBook.setPurchased(true);
+            newBook.setPriority(-1);
+        }else{
+            newBook.setPurchased(false);
+            newBook.setPriority(priority);
         }
         logger.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }

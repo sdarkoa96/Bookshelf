@@ -112,18 +112,27 @@ public class Input {
             book.setPurchased(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes"));
 
             scan = new Scanner(System.in);
-            if(!book.isPurchased()){
-                while (true){
-                    System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
-                    try {
-                        int answer = scan.nextInt();
-                        if(answer>0 && answer<4){
-                            book.setPriority(answer);
-                            break;
-                        }
-                    }catch (InputMismatchException ignored){
 
+            if(!book.isPurchased()){
+                System.out.println("Would you like to set the priority level of this book");
+                ans = scan.next();
+                if (ans.equalsIgnoreCase("Y") || ans.equalsIgnoreCase("y")) {
+                    while (true) {
+                        scan = new Scanner(System.in);
+                        System.out.println("Enter 1 (high priority), 2 (med priority), or 3 (low priority): ");
+                        try {
+                            int answer = scan.nextInt();
+                            if (answer > 0 && answer < 4) {
+                                book.setPriority(answer);
+                                break;
+                            }
+                        } catch (InputMismatchException ignored) {
+
+                        }
                     }
+                }
+                else {
+                    book.setPriority(-1);
                 }
             }else {
                 book.setPriority(-1);

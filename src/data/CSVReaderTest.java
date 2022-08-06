@@ -63,7 +63,7 @@ public class CSVReaderTest {
     @Test
     public void newBook() {
         CSVReader testA = new CSVReader(l,shelf);
-        testA.newBook("Tatsuki Fujimoto","Chainsaw Man","comic","Chainsaw Man",6,"false");
+        testA.newBook("Tatsuki Fujimoto","Chainsaw Man","comic","Chainsaw Man",6,"false",0);
         assertFalse(shelf.getBooks().get("comic").isEmpty());
     }
 }

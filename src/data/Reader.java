@@ -13,6 +13,6 @@ public abstract class Reader {
     }
 
     public abstract void readBook(String filename) throws IOException;
-    public abstract void newBook(String author, String title, String type, String seriesTitle, int volume, String purchase);
+    public abstract void newBook(String author, String title, String type, String seriesTitle, int volume, String purchase, int priority);
 
 }

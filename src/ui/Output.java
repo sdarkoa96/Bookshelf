@@ -2,6 +2,7 @@ package ui;
 
 import data.CSVReader;
 import data.Input;
+import logging.Logger;
 import org.junit.Before;
 import processor.*;
 import util.Bookshelf;
@@ -21,6 +22,7 @@ public class Output {
     Update update = null;
 
     Writer writer = null;
+    Logger logger = null;
 
     AuthorComp authorComp = new AuthorComp();
     PriorityComp priorityComp = new PriorityComp();
@@ -29,14 +31,14 @@ public class Output {
     Bookshelf shelf;
 
 
-    public Output(CSVReader csv, Input input, Pull pull, Update update, Writer write, Bookshelf shelf, Scanner scan){
+    public Output(CSVReader csv, Input input, Pull pull, Writer write, Bookshelf shelf, Scanner scan, Logger logger){
         this.scan = scan;
         this.csv = csv;
         this.input = input;
         this.pull = pull;
-        this.update = update;
         this.writer = write;
         this.shelf = shelf;
+        this.logger = logger;
     }
 
     public void options(){
@@ -46,16 +48,17 @@ public class Output {
         System.out.println("2. Read book(s) from a file to add to bookshelf"); //csvreader
         System.out.println("3. Show all the books by author of choice");
         System.out.println("4. Show all the books by title of choice");
-        System.out.println("5. Show all the books by priority of choice");
+        System.out.println("5. Show all the books you still need to purchase by your priority level of choice");
         System.out.println("6. Show all the books by series of choice");
         System.out.println("7. Show all the books by type of choice");
         System.out.println("8. Remove book(s) from bookshelf");
         System.out.println("9. Update purchase status of book(s) from bookshelf");
-        System.out.println("10. Show purchased book(s)"); //getter from update
-        System.out.println("11. Show book(s) that have yet to be purchased"); //getter from update
-        System.out.println("12. Create bookshelf document");
-        System.out.println("13. Show shelf"); //entire shelf
-        System.out.println("14. Exit");
+        System.out.println("10. Set the priority level of books you need to purchase");
+        System.out.println("11. Show purchased book(s)"); //getter from update
+        System.out.println("12. Show book(s) that have yet to be purchased"); //getter from update
+        System.out.println("13. Create bookshelf document");
+        System.out.println("14. Show shelf"); //entire shelf
+        System.out.println("15. Exit");
         System.out.println();
     }
 
@@ -64,13 +67,13 @@ public class Output {
         switch (option) {
             case 3 -> {
                 System.out.println("Enter your author: ");
-                String author = pullOption.next();
+                String author = pullOption.nextLine();
                 pull.pullBooks(authorComp, author);
 
             }
             case 4 -> {
                 System.out.println("Enter your book title: ");
-                String title = pullOption.next();
+                String title = pullOption.nextLine();
                 pull.pullBooks(titleComp, title);
 
             }
@@ -88,7 +91,7 @@ public class Output {
             }
             case 6 -> {
                 System.out.println("Enter your series title: ");
-                String series = pullOption.next();
+                String series = pullOption.nextLine();
                 pull.pullBooks(seriesComp, series);
 
             }
@@ -128,12 +131,12 @@ public class Output {
             }
 
         }
-        String type = types[typeInd];
+        String type = types[typeInd-1];
 
         //get series
         this.scan = new Scanner(System.in);
         System.out.println("If your book(s) are a part of a series enter the series name, if not enter -1");
-        String seriesTitle = this.scan.next();
+        String seriesTitle = this.scan.nextLine();
         if(seriesTitle.equals("-1")){
             seriesTitle = null;
         }
@@ -159,18 +162,25 @@ public class Output {
             }
         }
 
-        //get title
-        this.scan = new Scanner(System.in);
-        String title = this.scan.next();
-
         //get author
         System.out.println("If you know the author enter their name, if not enter -1");
         this.scan = new Scanner(System.in);
-        String author = this.scan.next();
+        String author = this.scan.nextLine();
         if(author.equals("-1")){
             author = null;
         }
-        update.updateStatus(this.scan,bought,priority,title,author,type,seriesTitle,vol,remove);
+
+        if(vol == 0){
+            System.out.println("Author: "+author+" Type: "+type+" Series: "+seriesTitle);
+            update.updateStatus(this.scan,bought,priority,"",author,type,seriesTitle,vol,remove);
+
+        }else {
+            //get title
+            this.scan = new Scanner(System.in);
+            String title = this.scan.next();
+
+            update.updateStatus(this.scan, bought, priority, title, author, type, seriesTitle, vol, remove);
+        }
 
     }
 
@@ -193,6 +203,7 @@ public class Output {
 
     public void execute() throws Exception {
 
+        Update update = null;
         boolean execute = true;
         boolean shelfFilled = false;
         System.out.println("Welcome to your book shelf.");
@@ -218,12 +229,14 @@ public class Output {
             while (true){
 
 
-                if(option > 14 || option < 1){
+                if(option > 15 || option < 1){
                     System.out.println("Please enter a valid option.");
                 }
                 else if(option <= 2 || shelfFilled){
+                    shelfFilled = true;
                     break;
                 }
+                System.out.println("Please enter 1 or 2 to populate bookshelf.");
                 option = this.scan.nextInt();
                 this.scan = new Scanner(System.in);
 
@@ -232,12 +245,15 @@ public class Output {
             switch (option){
                 case 1 ->  {
                     input();
-                    shelfFilled = true;
+                    update = new Update(logger,shelf);
+
                 }
 
                 case 2 -> {
                     csv();
-                    shelfFilled = true;
+                    update = new Update(logger,shelf);
+                    System.out.println("Size: "+update.getPurchased().size());
+
                 }
                 case 3 ->{
                     pull(3);
@@ -276,22 +292,35 @@ public class Output {
                     upStatusChoice(option == 1, null, false);
                 }
                 case 10 -> {
+
+                    int priority = -1;
+                    do{
+                        scan = new Scanner(System.in);
+                        System.out.println("Enter priority you want to set book(s) to (1 (high priority), 2 (med priority), or 3 (low priority)): ");
+                        priority = scan.nextInt();
+                    }while (!(priority > 1 && priority < 4));
+
+                    upStatusChoice(null,priority,false);
+                }
+                case 11 -> {
+                    System.out.println("Shelf size: "+shelf.getBooks().get("fiction").size());
+//
                     for (String i : update.getPurchased()) {
                         System.out.println(i);
                     }
                 }
-                case 11-> {
+                case 12-> {
                     for (String i : update.getTitleNotPurchased()) {
                         System.out.println(i);
                     }
                 }
-                case 12 -> {
+                case 13 -> {
                     this.scan = new Scanner(System.in);
                     System.out.println("What would you like to name your bookshelf file? ");
                     String file = this.scan.next();
                     this.writer.write(file);
                 }
-                case 13 -> {
+                case 14 -> {
                     System.out.println("Fiction books:");
                     shelf.toString("fiction");
                     System.out.println("Non-fiction books:");
@@ -299,12 +328,13 @@ public class Output {
                     System.out.println("Comic books:");
                     shelf.toString("comic");
                 }
-                case 14 -> {
+                case 15 -> {
                     System.out.println("GOODBYE");
                     execute = false;
                 }
             }
 
+            this.scan = new Scanner(System.in);
             TimeUnit.SECONDS.sleep(1);
 
         }
