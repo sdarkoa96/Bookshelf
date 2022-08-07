@@ -145,7 +145,7 @@ public class Input {
 
     public Book newBook(String author, String title, String type, String seriesTitle){
         Book newBook = new Book(author, title, type, seriesTitle);
-        l.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
+        l.logEvent(newBook.getTitle() +" added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
         return newBook;
     }
 

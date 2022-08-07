@@ -41,6 +41,6 @@ public class WriterTest {
         test.write(null);
 
         test = new Writer(null);
-        test.write("empty_file.csv");
+        test.write("no_file_exception_thrown.csv");
     }
 }

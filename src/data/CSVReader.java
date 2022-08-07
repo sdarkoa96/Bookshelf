@@ -127,6 +127,6 @@ public class CSVReader extends Reader{
             newBook.setPurchased(false);
             newBook.setPriority(priority);
         }
-        logger.logEvent("Book added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
+        logger.logEvent( newBook.getTitle() +" added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
     }
 }

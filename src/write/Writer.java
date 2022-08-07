@@ -4,6 +4,7 @@ import util.Book;
 import util.Bookshelf;
 import logging.Logger;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,7 +55,8 @@ public class Writer {
     }
 
     public void write(String filename) throws Exception {
-        FileWriter fw = new FileWriter(filename);
+        File file = new File(filename);
+        FileWriter fw = new FileWriter(file);
         PrintWriter pw = new PrintWriter(fw);
 
         pw.write("Title,Author,Series,Volume,Purchased,Priority,Type");
@@ -73,6 +75,9 @@ public class Writer {
         for(Book i: comic){
             wrtLn(pw,i);
         }
+
+        System.out.println(filename + " was successfully created.");
+
 
         fw.close();
         pw.close();
