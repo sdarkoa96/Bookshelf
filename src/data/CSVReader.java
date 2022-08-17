@@ -12,9 +12,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Reads CSV file to obtain data that will create Book Object
+ */
 public class CSVReader extends Reader{
 
+    /**
+     * logs whether book is added into the shelf
+     */
     Logger logger;
+    /**
+     * holds Book objects in lists representing shelves: fiction, non-fiction, and comic
+     */
     Bookshelf shelf;
 
     public CSVReader(Logger logger, Bookshelf shelf) {
@@ -24,10 +33,14 @@ public class CSVReader extends Reader{
 
     }
 
-    @Override
     /**
-     * read from a text file that has data to create a book
+     * Reads file and gets data needed to populate fields of Book object
+     * @param filename file name or path entered by user
+     * @throws IOException
+     * @throws NullPointerException
+     * @throws SecurityException
      */
+    @Override
     public void readBook(String filename) throws IOException, NullPointerException, SecurityException {
         FileReader fr = new FileReader(filename);
         BufferedReader br = new BufferedReader(fr);
@@ -109,6 +122,16 @@ public class CSVReader extends Reader{
 
     }
 
+    /**
+     * Creates Book object using data parsed from readbook()
+     * @param author author of book
+     * @param title title of book
+     * @param type type of book: fiction, non-fiction, or comic
+     * @param seriesTitle title of series book belongs to
+     * @param volume volume of book in a series
+     * @param purchase true if you have purchased book false if you have not
+     * @param priority if have not purchased book value is 1(high)-3(low) otherwise defaults to -1
+     */
     @Override
     public void newBook(String author, String title, String type, String seriesTitle, int volume,String purchase, int priority){
 

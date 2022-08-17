@@ -20,7 +20,7 @@ public class Update {
     public Update(Logger l,Bookshelf shelf){
         this.l = l;
         this.shelf = shelf;
-        purchasedStatus();
+        purchasedStatus(); //populates purchased, titleNotPurchased, and notPurchased fields
     }
 
     public Set<String> getPurchased() {
@@ -122,7 +122,7 @@ public class Update {
      * @param bought if null leave book's purchase status alone, if ture set purchase status to true, and if false set purchase status to false
      * @param book
      * @param priority if null make no changes to book's priority variable, if 1 (high priority), 2 (med priority), or 3 (low priority) change book priority
-     * @param rem
+     * @param rem if set to true will trigger condition that removes book from shelf
      */
 
     public void swapStatus(Boolean bought, Book book, Integer priority, boolean rem){

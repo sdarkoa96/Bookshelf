@@ -8,46 +8,54 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * creates a book based on user input
- *
- * perhaps this should just have a static method that creates a new book?
- *
- * or maybe it should just be the contructor that has things needed to create books then call method to create it
- *
- * should I have a local scanner that I create and close in a single method which will call newBook?
+ * Creates a Book object based on data gathered from user input
  */
 public class Input {
 
+    /**
+     * logs whether book is added into the shelf
+     */
+    Logger logger;
+    /**
+     * holds Book objects in lists representing shelves: fiction, non-fiction, and comic
+     */
     Bookshelf shelf;
-    Logger l;
 
-    public Input(Logger l,Bookshelf shelf){
-        this.l = l;
+    public Input(Logger logger, Bookshelf shelf){
+        this.logger = logger;
         this.shelf = shelf;
     }
 
-    public void inputBook (Scanner scan)throws Exception{
+    /**
+     * uses scanner to gather user input to populate fields of Book object
+     * @param scan
+     * @throws Exception
+     */
+    public void inputData(Scanner scan)throws Exception{
 
         System.out.println("How many books would you like to enter?");
         int loops = -1;
         do {
             try {
-                loops = scan.nextInt();
+                loops = scan.nextInt(); //determines how many Book objects user will create
             } catch (Exception e) {
                 System.out.println("Please enter a positive number: ");
             }
             scan = new Scanner(System.in);
-        } while (loops <= -1);
+        } while (loops <= -1); //condition for executing do block
 
-        int count = 0;
+        int count = 0; //loop control
 
         while (count != loops){
+
+            //get author
             String author = null;
             System.out.println("Enter the book author: ");
             while (author == null || author.isBlank()) {
                 author = scan.next();
             }
 
+            //get title
             scan = new Scanner(System.in);
             String title = null;
             System.out.println("Enter the book title: ");
@@ -56,6 +64,7 @@ public class Input {
             }
 
 
+            //select book type
             scan = new Scanner(System.in);
             String type = null;
             int typeBook = 0;
@@ -77,6 +86,7 @@ public class Input {
                 }
             }
 
+            //get series and volume information
             String seriesTitle = null;
             int seriesVol = 0;
             System.out.println("Is this book a part of a series Y/N?");
@@ -90,29 +100,32 @@ public class Input {
                     scan = new Scanner(System.in);
 
                     while(true){
+                        System.out.println("Enter a the volume number.");
                         try{
-                            System.out.println("Enter a the volume number.");
                             seriesVol = scan.nextInt();
                             break;
-                        }catch (InputMismatchException e){
-                            System.out.println("Enter a the volume number.");
+                        }catch (InputMismatchException ignored){
                         }
                     }
                 }
             }
 
+            //creates Book
             Book book = newBook(author,title, type,seriesTitle);
+
+            //set series volume
             if(seriesTitle != null){
                 book.setSeriesVol(seriesVol);
             }
 
+            //set purchase status of book
             scan = new Scanner(System.in);
             System.out.println("Have you purchased this book Y/N?");
             ans = scan.next();
             book.setPurchased(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes"));
 
+            //set priority of book
             scan = new Scanner(System.in);
-
             if(!book.isPurchased()){
                 System.out.println("Would you like to set the priority level of this book");
                 ans = scan.next();
@@ -143,9 +156,17 @@ public class Input {
 
     }
 
+    /**
+     * creates new book, adds it to shelf and logs action
+     * @param author book author
+     * @param title book title
+     * @param type fiction, non-fiction, comic
+     * @param seriesTitle title of series book belongs to
+     * @return Book created
+     */
     public Book newBook(String author, String title, String type, String seriesTitle){
         Book newBook = new Book(author, title, type, seriesTitle);
-        l.logEvent(newBook.getTitle() +" added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
+        logger.logEvent(newBook.getTitle() +" added to shelf: "+shelf.addBook(newBook)); //consider using logger for print statement
         return newBook;
     }
 

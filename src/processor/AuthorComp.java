@@ -2,6 +2,9 @@ package processor;
 
 import util.Book;
 
+/**
+ * Comparator that checks if book author matches given author
+ */
 public class AuthorComp implements BookComparator{
 
     public AuthorComp(){};

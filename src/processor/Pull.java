@@ -7,17 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * displays all the books that match with a given comparator
+ * displays all the books that match with a given input using a comparator
  */
 public class Pull{
     Bookshelf shelf;
 
-
     public Pull(Bookshelf shelf){
-
         this.shelf = shelf;
     }
 
+    /**
+     * prints books based on comparator evaluation
+     * @param comp comparator using author, series, and title
+     * @param pullFactor value looking for in Book object
+     */
     public void pullBooks(BookComparator comp, String pullFactor){
         if(comp == null){
             System.out.println("You've entered an invalid comparator");
@@ -30,7 +33,7 @@ public class Pull{
                     continue;
                 }
                 for (Book i : pair.getValue()) {
-
+                    //uses comparator to check if Book contains pullFactor
                     if (comp.eqBook(i, pullFactor)) {
                         System.out.println(i.toString());
                     }
@@ -39,6 +42,11 @@ public class Pull{
         }
     }
 
+    /**
+     * same logic as above but for priority
+     * @param comp
+     * @param pullFactor
+     */
     public void pullBooks(BookComparator comp, Integer pullFactor){
         if(comp == null){
             System.out.println("You've entered an invalid comparator");
@@ -60,6 +68,10 @@ public class Pull{
 
     }
 
+    /**
+     * pulls all the books on the given shelf
+     * @param type non-fiction, fiction, comic
+     */
     public void pullShelf(String type){
         if( type == null || type.isBlank()){
             System.out.println("You've entered an invalid type");

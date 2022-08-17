@@ -5,6 +5,9 @@ import util.Book;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Comparator that checks if book title matches given title
+ */
 public class TitleComp implements BookComparator{
     @Override
     public <E> boolean eqBook(Book book1, E o) {

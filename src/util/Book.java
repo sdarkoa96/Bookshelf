@@ -4,18 +4,45 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * class representing a Book
+ * Represents a Book
  */
 public class Book {
 
+    /**
+     * book author
+     */
     String author = null;
+    /**
+     * book title
+     */
     String title = null;
-    String type = null; //fiction,non-fiction,comic
+    /**
+     * fiction,non-fiction,comic
+     */
+    String type = null;
 
-    int priority = -1; //on scale of 1-3 represents how much want to buy this book
+    /**
+     * on scale of 1-3 represents how much user wants to buy this book; remains -1 if book has already been purchased
+     */
+    int priority = -1;
+
+    /**
+     * status indicating whether book has been purchased yes: true no: false
+     */
     boolean purchased = false;
+    /**
+     * indicates whether book is part of a series
+     */
     boolean series = false;
+
+    /**
+     * title of series book belongs to
+     */
     String seriesTitle = null;
+
+    /**
+     * volume of book in the series; remains 0 if book doesn't belong in a series
+     */
     int seriesVol = 0;
 
     public Book(String author, String title, String type, String seriesTitle) {
@@ -28,21 +55,21 @@ public class Book {
         }
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(author, title, seriesTitle, seriesVol);
-//    }
-
+    /**
+     * determines if 2 Book objects are equal
+     * @param o
+     * @return true if books are the same
+     */
     @Override
     public boolean equals(Object o){
         Book other = (Book) o;
 
         if(other.getSeries() && this.series){
-            if(!(other.getSeriesTitle().toLowerCase().equals(this.seriesTitle.toLowerCase()))){
+            if(!(other.getSeriesTitle().equalsIgnoreCase(this.seriesTitle))){
                 return false;
             }
         }
-        return (other.getAuthor().toLowerCase().equals(this.author.toLowerCase()) && other.getTitle().toLowerCase().equals(this.title.toLowerCase())
+        return (other.getAuthor().equalsIgnoreCase(this.author) && other.getTitle().equalsIgnoreCase(this.title)
                 && other.getSeriesVol()==this.getSeriesVol());
     }
 
@@ -102,6 +129,10 @@ public class Book {
         this.priority = priority;
     }
 
+    /**
+     * Creates string representing a Book object
+     * @return
+     */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Book: ");
@@ -127,9 +158,5 @@ public class Book {
         return this.getPriority() - book.getPriority();
     }
 
-//    @Override
-//    public int compareTo(Object o){
-//        o = (Book) o;
-//        return this.getPriority() - o.getPriority();
-//    }
+
 }

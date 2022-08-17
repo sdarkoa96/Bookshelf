@@ -3,7 +3,6 @@ package ui;
 import data.CSVReader;
 import data.Input;
 import logging.Logger;
-import org.junit.Before;
 import processor.*;
 import util.Bookshelf;
 import write.Writer;
@@ -62,6 +61,10 @@ public class Output {
         System.out.println();
     }
 
+    /**
+     * Completes execution of 3-7
+     * @param option
+     */
     public void pull(int option){
         Scanner pullOption = new Scanner(System.in);
         switch (option) {
@@ -113,6 +116,12 @@ public class Output {
         }
     }
 
+    /**
+     * Completes execution of options 8-10
+     * @param bought executes option 9 if not null
+     * @param priority executes option 10 if given number 1-3
+     * @param remove executes option 8 if true
+     */
     public void upStatusChoice(Boolean bought, Integer priority, boolean remove){
         //get type
         System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
@@ -184,12 +193,18 @@ public class Output {
 
     }
 
+    /**
+     * Populates bookshelf
+     * @throws Exception
+     */
     public void input() throws Exception {
         this.scan = new Scanner(System.in);
-        this.input.inputBook(this.scan);
-
+        this.input.inputData(this.scan);
     }
 
+    /**
+     * Populates bookshelf
+     */
     public void csv() {
         this.scan = new Scanner(System.in);
         System.out.println("Enter your filename/path: ");
@@ -201,6 +216,10 @@ public class Output {
         }
     }
 
+    /**
+     * Program control where user can execute options given in options() menu
+     * @throws Exception
+     */
     public void execute() throws Exception {
 
         Update update = null;

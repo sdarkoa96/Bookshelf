@@ -2,6 +2,9 @@ package processor;
 
 import util.Book;
 
+/**
+ * Comparator that checks if book priority matches given priority
+ */
 public class PriorityComp implements BookComparator{
     @Override
     public <E> boolean eqBook(Book book1, E o) {

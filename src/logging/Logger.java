@@ -5,15 +5,31 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Logs events of program
+ */
 public class Logger {
+    /**
+     * writes to output file
+     */
     private PrintWriter out;
-    public String destination = null;
+    /**
+     * holds name of file to be created
+     */
+    String destination = null;
     private FileWriter logWrite;
+
+    /**
+     * ensure only one logger object will be created
+     */
     private Logger(){}
     private static Logger instance = new Logger();
     public static Logger getInstance(){return instance;}
 
-    //logs event to file
+    /**
+     * logs events
+     * @param event
+     */
     public void logEvent(String event) {
         this.out.print(System.currentTimeMillis()+" ");
         this.out.print(event);
@@ -21,7 +37,13 @@ public class Logger {
         this.out.flush();
     }
 
-    //set or changes output destination
+    /**
+     * set or changes output destination of log file
+     * @param filename
+     * @throws IOException
+     * @throws SecurityException
+     * @throws NullPointerException
+     */
     public void setDestination(String filename) throws IOException, SecurityException, NullPointerException {
         boolean append = true; //boolean to determine whether to append to a file
 
@@ -42,14 +64,17 @@ public class Logger {
 
     }
 
-    //writes to System.err when file not specified in command line
+    /**
+     * writes to System.err when file not specified
+     * @throws IOException
+     * @throws SecurityException
+     * @throws NullPointerException
+     */
     public void setDestination() throws IOException, SecurityException, NullPointerException {
-        if (this.destination == null||this.destination.isBlank()) {
-            this.out = new PrintWriter(System.err);
-        } else{
+        if (this.destination != null && !this.destination.isBlank()) {
             logWrite.close();
             this.out.close();
-            this.out = new PrintWriter(System.err);
         }
+        this.out = new PrintWriter(System.err);
     }
 }
