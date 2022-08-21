@@ -45,7 +45,7 @@ public class Bookshelf {
 
     /**
      * checks if book is in shelf and then adds
-     * @param book
+     * @param book Book object
      * @return true if book is added to shelf or false if not
      */
     public boolean addBook(Book book){
@@ -60,7 +60,7 @@ public class Bookshelf {
 
     /**
      * checks if book is in shelf
-     * @param book
+     * @param book Book object
      * @return true if book is in respective shelf or false if it is not
      * @throws NullPointerException
      */

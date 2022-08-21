@@ -150,8 +150,8 @@ public class Book {
     }
 
     /**
-     *
-     * @param book
+     * Compares book according to it's set priority
+     * @param book Book object
      * @return int determining sorting order (lower numbers at the beginning of list)
      */
     public int compareTo(Book book) {

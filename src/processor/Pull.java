@@ -18,7 +18,7 @@ public class Pull{
 
     /**
      * prints books based on comparator evaluation
-     * @param comp comparator using author, series, and title
+     * @param comp comparator that will compare pullfactor to corresponding element of Book
      * @param pullFactor value looking for in Book object
      */
     public void pullBooks(BookComparator comp, String pullFactor){
@@ -44,8 +44,8 @@ public class Pull{
 
     /**
      * same logic as above but for priority
-     * @param comp
-     * @param pullFactor
+     * @param comp comparator that will compare pullfactor to corresponding element of Book
+     * @param pullFactor value looking for in Book object
      */
     public void pullBooks(BookComparator comp, Integer pullFactor){
         if(comp == null){

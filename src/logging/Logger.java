@@ -28,7 +28,7 @@ public class Logger {
 
     /**
      * logs events
-     * @param event
+     * @param event string to enter into log
      */
     public void logEvent(String event) {
         this.out.print(System.currentTimeMillis()+" ");
@@ -39,7 +39,7 @@ public class Logger {
 
     /**
      * set or changes output destination of log file
-     * @param filename
+     * @param filename name to give log file
      * @throws IOException
      * @throws SecurityException
      * @throws NullPointerException

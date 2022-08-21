@@ -63,7 +63,7 @@ public class Output {
 
     /**
      * Completes execution of 3-7
-     * @param option
+     * @param option integer that will trigger conditional
      */
     public void pull(int option){
         Scanner pullOption = new Scanner(System.in);

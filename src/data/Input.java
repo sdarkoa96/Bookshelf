@@ -28,7 +28,7 @@ public class Input {
 
     /**
      * uses scanner to gather user input to populate fields of Book object
-     * @param scan
+     * @param scan scanner to get user input
      * @throws Exception
      */
     public void inputData(Scanner scan)throws Exception{

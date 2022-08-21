@@ -26,8 +26,8 @@ public class Writer {
 
     /**
      * Formats the Book information into a row and prints it to output file
-     * @param pw
-     * @param i
+     * @param pw printwriter that holds file to write to
+     * @param i Book object to get information to write to file
      */
     public void wrtLn(PrintWriter pw, Book i){
         String title = i.getTitle();
@@ -62,7 +62,7 @@ public class Writer {
 
     /**
      * Creates output file, loops through each book and calls writeln() for each book
-     * @param filename
+     * @param filename name of file to write to
      * @throws Exception
      */
     public void write(String filename) throws Exception {

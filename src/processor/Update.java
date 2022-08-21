@@ -48,11 +48,11 @@ public class Update {
     /**
      * locates books in bookshelf that match the given parameters
      *
-     * @param title
-     * @param author
-     * @param type
-     * @param seriesTitle if this is null don't look at it
-     * @param vol if null set to 0? or don't use?
+     * @param title book title to find
+     * @param author author related to book to find
+     * @param type shelf to look in
+     * @param seriesTitle series book should be a part of if the book is a part of series
+     * @param vol volume number
      */
     public List<Book> findBook(String title, String author, String type,String seriesTitle, int vol){
 
@@ -84,12 +84,6 @@ public class Update {
                 iTitle = i.getTitle();
                 iAuthor = i.getAuthor();
 
-//                System.out.println(iAuthor+ " :: "+author);
-//                System.out.println(iAuthor.equalsIgnoreCase(author));
-//                System.out.println("VOL: "+vol);
-//                System.out.println(vol == 0 );
-                //System.out.println("SERIES "+seriesTitle.toLowerCase()+"| :: "+ i.getSeriesTitle().toLowerCase()+"|");
-//                System.out.println("SERIES "+Objects.equals(seriesTitle.toLowerCase(),i.getSeriesTitle().toLowerCase()));
                 if(seriesTitle == null){
                     if(iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author)){
                         if(vol <= 0){
@@ -120,7 +114,7 @@ public class Update {
     /**
      * switches the status of given book's variable
      * @param bought if null leave book's purchase status alone, if ture set purchase status to true, and if false set purchase status to false
-     * @param book
+     * @param book Book object
      * @param priority if null make no changes to book's priority variable, if 1 (high priority), 2 (med priority), or 3 (low priority) change book priority
      * @param rem if set to true will trigger condition that removes book from shelf
      */
@@ -157,7 +151,7 @@ public class Update {
      *               book has been purchased
      * @param priority if null do not want to change priority status, if 1 (high priority), 2 (med priority), or 3 (low priority) change book priority
      *                 status
-     * @param title title of book to change
+     * @param title title of book to update/change
      * @param author author of book
      * @param type fiction, non-fiction, or comic book
      * @param seriesTitle series name of book
