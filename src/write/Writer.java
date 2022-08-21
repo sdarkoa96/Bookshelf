@@ -23,6 +23,12 @@ public class Writer {
         this.shelf = shelf;
     }
 
+
+    /**
+     * Formats the Book information into a row and prints it to output file
+     * @param pw
+     * @param i
+     */
     public void wrtLn(PrintWriter pw, Book i){
         String title = i.getTitle();
         String author = i.getAuthor();
@@ -54,6 +60,11 @@ public class Writer {
         pw.write("\n");
     }
 
+    /**
+     * Creates output file, loops through each book and calls writeln() for each book
+     * @param filename
+     * @throws Exception
+     */
     public void write(String filename) throws Exception {
         File file = new File(filename);
         FileWriter fw = new FileWriter(file);

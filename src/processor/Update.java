@@ -129,24 +129,24 @@ public class Update {
         if(bought == null && priority != null){
             if(!book.isPurchased()){
                 book.setPriority(priority);
-                l.logEvent(book.toString()+" priority set to: "+priority);
+                l.logEvent(book+" priority set to: "+priority);
                 sortNotPurchased();
             }
         }else if(Boolean.TRUE.equals(bought) && priority == null){
             book.setPurchased(true);
-            l.logEvent(book.toString()+" set to: purchased");
+            l.logEvent(book+" set to: purchased");
             this.purchased.add(book.toString());
             this.titleNotPurchased.remove(book.toString());
         }else if(Boolean.FALSE.equals(bought) && priority == null){
             book.setPurchased(false);
-            l.logEvent(book.toString()+" set to: not purchased");
+            l.logEvent(book+" set to: not purchased");
             this.purchased.remove(book.toString());
             this.titleNotPurchased.add(book.toString());
         }else if(rem){
             this.shelf.getBooks().get(book.getType()).remove(book);
             this.purchased.remove(book.toString());
             this.titleNotPurchased.remove(book.toString());
-            l.logEvent(book.toString()+" removed from book shelf");
+            l.logEvent(book+" removed from book shelf");
         }
     }
 
