@@ -52,7 +52,7 @@ public class Input {
             String author = null;
             System.out.println("Enter the book author: ");
             while (author == null || author.isBlank()) {
-                author = scan.next();
+                author = scan.nextLine();
             }
 
             //get title
@@ -90,17 +90,18 @@ public class Input {
             String seriesTitle = null;
             int seriesVol = 0;
             System.out.println("Is this book a part of a series Y/N?");
-
             String ans = scan.next();
+
             if(ans.length() == 1){
                 char answer = ans.charAt(0);
                 if (answer == 'y' || answer == 'Y'){
                     System.out.println("Enter series title: ");
-                    seriesTitle = scan.next();
                     scan = new Scanner(System.in);
+                    seriesTitle = scan.nextLine();
+
 
                     while(true){
-                        System.out.println("Enter a the volume number.");
+                        System.out.println("Enter a the volume number: ");
                         try{
                             seriesVol = scan.nextInt();
                             break;
@@ -127,7 +128,7 @@ public class Input {
             //set priority of book
             scan = new Scanner(System.in);
             if(!book.isPurchased()){
-                System.out.println("Would you like to set the priority level of this book");
+                System.out.println("Would you like to set the priority level of this book Y/N?");
                 ans = scan.next();
                 if (ans.equalsIgnoreCase("Y") || ans.equalsIgnoreCase("y")) {
                     while (true) {

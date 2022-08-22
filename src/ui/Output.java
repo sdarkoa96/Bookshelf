@@ -66,17 +66,17 @@ public class Output {
      * @param option integer that will trigger conditional
      */
     public void pull(int option){
-        Scanner pullOption = new Scanner(System.in);
+        this.scan = new Scanner(System.in);
         switch (option) {
             case 3 -> {
                 System.out.println("Enter your author: ");
-                String author = pullOption.nextLine();
+                String author = this.scan.nextLine();
                 pull.pullBooks(authorComp, author);
 
             }
             case 4 -> {
                 System.out.println("Enter your book title: ");
-                String title = pullOption.nextLine();
+                String title = this.scan.nextLine();
                 pull.pullBooks(titleComp, title);
 
             }
@@ -85,7 +85,7 @@ public class Output {
                 while (priority > 3 || priority < 1) {
                     System.out.println("Enter your priority level of choice (1-3): ");
                     try {
-                        priority = pullOption.nextInt();
+                        priority = this.scan.nextInt();
                     } catch (InputMismatchException ignored) {
                     }
                 }
@@ -94,7 +94,7 @@ public class Output {
             }
             case 6 -> {
                 System.out.println("Enter your series title: ");
-                String series = pullOption.nextLine();
+                String series = this.scan.nextLine();
                 pull.pullBooks(seriesComp, series);
 
             }
@@ -103,13 +103,14 @@ public class Output {
                 System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
                 int typeInd = -1;
                 while (true) {
-                    typeInd = pullOption.nextInt();
                     try {
+                        typeInd = this.scan.nextInt();
                         pull.pullShelf(types[typeInd - 1]);
                         break;
-                    } catch (Exception e) {
+                    } catch (InputMismatchException e) {
                         System.out.println("Enter 1 for fiction, 2 for non-ficiton, or 3 for comic books: ");
                     }
+                    this.scan = new Scanner(System.in);
                 }
 
             }
@@ -154,9 +155,9 @@ public class Output {
         int vol = 0;
         if(seriesTitle != null) {
 
-            System.out.println("If you want to remove all the volumes of a series enter 0." +
-                    " If you would like to remove multiple volumes in a series enter -1." +
-                    " If you would like to remove one volume of a series, enter the volume number.");
+            System.out.println("If you want to select all the volumes of a series enter 0." +
+                    " If you would like to select multiple volumes in a series enter -1." +
+                    " If you would like to select one volume of a series, enter the volume number.");
             while(true){
                 this.scan = new Scanner(System.in);
                 try {
@@ -179,16 +180,17 @@ public class Output {
             author = null;
         }
 
-        if(vol == 0){
+        if(vol == 0 && seriesTitle != null){
             System.out.println("Author: "+author+" Type: "+type+" Series: "+seriesTitle);
-            update.updateStatus(this.scan,bought,priority,"",author,type,seriesTitle,vol,remove);
+            this.update.updateStatus(this.scan,bought,priority,"",author,type,seriesTitle,vol,remove);
 
         }else {
             //get title
+            System.out.println("Enter the title of the book: ");
             this.scan = new Scanner(System.in);
             String title = this.scan.next();
 
-            update.updateStatus(this.scan, bought, priority, title, author, type, seriesTitle, vol, remove);
+            this.update.updateStatus(this.scan, bought, priority, title, author, type, seriesTitle, vol, remove);
         }
 
     }
@@ -264,14 +266,14 @@ public class Output {
             switch (option){
                 case 1 ->  {
                     input();
-                    update = new Update(logger,shelf);
+                    this.update = new Update(logger,shelf);
 
                 }
 
                 case 2 -> {
                     csv();
-                    update = new Update(logger,shelf);
-                    System.out.println("Size: "+update.getPurchased().size());
+                    this.update = new Update(logger,shelf);
+                    System.out.println("Size: "+this.update.getPurchased().size());
 
                 }
                 case 3 ->{
@@ -317,19 +319,19 @@ public class Output {
                         scan = new Scanner(System.in);
                         System.out.println("Enter priority you want to set book(s) to (1 (high priority), 2 (med priority), or 3 (low priority)): ");
                         priority = scan.nextInt();
-                    }while (!(priority > 1 && priority < 4));
+                    }while (!(priority > 0 && priority < 4));
 
                     upStatusChoice(null,priority,false);
                 }
                 case 11 -> {
                     System.out.println("Shelf size: "+shelf.getBooks().get("fiction").size());
 //
-                    for (String i : update.getPurchased()) {
+                    for (String i : this.update.getPurchased()) {
                         System.out.println(i);
                     }
                 }
                 case 12-> {
-                    for (String i : update.getTitleNotPurchased()) {
+                    for (String i : this.update.getTitleNotPurchased()) {
                         System.out.println(i);
                     }
                 }

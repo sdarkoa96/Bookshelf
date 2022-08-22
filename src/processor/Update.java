@@ -81,8 +81,11 @@ public class Update {
             }
         } else{ //this is more specific because know the author
             for (Book i: typeShelf){
+
                 iTitle = i.getTitle();
                 iAuthor = i.getAuthor();
+
+//                System.out.println(i.getTitle()+" : "+iTitle+" "+i.getAuthor()+" : "+iAuthor+" ");
 
                 if(seriesTitle == null){
                     if(iTitle.equalsIgnoreCase(title) && iAuthor.equalsIgnoreCase(author)){
